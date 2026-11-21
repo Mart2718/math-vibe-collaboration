@@ -1,0 +1,2025 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mathematical Solidarity: Research Hub &amp; PD Slide Deck</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    body {
+      background-color: #FAF8F5;
+      color: #1F2937;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+    .chart-container {
+      position: relative;
+      width: 100%;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+      height: 280px;
+      max-height: 360px;
+    }
+    @media (min-width: 768px) {
+      .chart-container {
+        height: 320px;
+      }
+    }
+    .tab-active {
+      background-color: #2A6F68;
+      color: #FFFFFF;
+      border-color: #2A6F68;
+    }
+    .tab-inactive {
+      background-color: #FFFFFF;
+      color: #374151;
+      border-color: #E5E0D8;
+    }
+    .tab-inactive:hover {
+      background-color: #F3EFEA;
+    }
+    .card-surface {
+      background-color: #FFFFFF;
+      border: 1px solid #E5E0D8;
+    }
+    .warm-panel {
+      background-color: #F3EFEA;
+      border: 1px solid #E5E0D8;
+    }
+    .projector-mode #slides-topbar,
+    .projector-mode #slides-notes-panel {
+      display: none !important;
+    }
+    .projector-mode #slides-stage-wrapper {
+      padding: 1rem;
+      min-height: 100vh;
+    }
+  </style>
+</head>
+<body class="antialiased selection:bg-[#2A6F68] selection:text-white">
+
+  <!-- Chosen Palette: Calm Warm Neutrals & Sage-Terracotta (Background: #FAF8F5, Surface: #FFFFFF / #F3EFEA, Primary Accent: #2A6F68 Deep Sage Teal, Secondary Accent: #C86D51 Muted Terracotta, Text: #1F2937) -->
+
+  <!-- Application Structure Plan: Built as a single GitHub Pages-ready index.html containing two seamlessly linked experiences controlled via URL hash routing (#hub vs. #slides). The default view (#hub) preserves the full Research & Strategy Hub (Vertical Board Studio, Four Wavelengths Explorer, Empirical Evidence & CCLT Lab, 8-Strategy Playbook, and Classroom Tailorer). Clicking "Open PD Slide Deck" or visiting the direct URL hash (#slides) switches into a distraction-free, 15-slide presentation deck with Fullscreen Projector Mode, live countdown timers on pre-work openers, keyboard arrow navigation, a slide jump grid, and toggleable facilitator notes. -->
+
+  <!-- Visualization & Content Choices:
+    1. Dual-View Router (#hub and #slides) -> Goal: Shareability & Usability -> Single index.html supporting both deep research exploration and live PD/classroom projection via URL hash -> Pure JS + HTML/Tailwind.
+    2. Vertical Board Studio & 15-Slide PD Deck -> Goal: Action & Facilitation -> Interactive Opener Deck + Live Countdown Timer + Visual Board Choreography + 15 Projectable Slides -> Pure HTML/Tailwind/JS.
+    3. Empirical Benchmarks & CCLT Trade-off -> Goal: Compare & Relationships -> Dual-View Bar Chart + Interactive Task Complexity Line Chart -> Chart.js (Canvas).
+  -->
+
+  <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+
+  <div id="hub-view">
+    <header class="sticky top-0 z-40 bg-[#FAF8F5]/95 backdrop-blur border-b border-[#E5E0D8]">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex flex-col md:flex-row md:items-center md:justify-between gap-3">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-2.5">
+            <span class="inline-flex items-center justify-center w-9 h-9 rounded-lg bg-[#2A6F68] text-white font-bold text-lg">∑</span>
+            <div>
+              <h1 class="text-base sm:text-lg font-bold text-[#1F2937] leading-tight">Mathematical Solidarity</h1>
+              <p class="text-xs text-[#6B7280]">Translating <em>Vibe</em> &amp; Learning Science into Math Practice</p>
+            </div>
+          </div>
+          <button type="button" id="btn-launch-slides-mobile" class="md:hidden px-3 py-1.5 rounded-lg bg-[#C86D51] text-white text-xs font-bold shadow-sm">
+            📽️ PD Slides
+          </button>
+        </div>
+
+        <nav class="flex flex-wrap items-center gap-1.5 text-xs sm:text-sm font-medium">
+          <a href="#board-studio" class="px-2.5 py-1.5 rounded-md text-[#374151] hover:bg-[#F3EFEA] transition">1. Board Studio</a>
+          <a href="#wavelengths" class="px-2.5 py-1.5 rounded-md text-[#374151] hover:bg-[#F3EFEA] transition">2. Wavelengths</a>
+          <a href="#evidence" class="px-2.5 py-1.5 rounded-md text-[#374151] hover:bg-[#F3EFEA] transition">3. Empirical Lab</a>
+          <a href="#playbook" class="px-2.5 py-1.5 rounded-md text-[#374151] hover:bg-[#F3EFEA] transition">4. 8 Strategies</a>
+          <a href="#tailor" class="px-2.5 py-1.5 rounded-md text-[#374151] hover:bg-[#F3EFEA] transition">5. Tailor Plan</a>
+          <button type="button" id="btn-launch-slides" class="hidden md:inline-flex items-center gap-1.5 ml-1 px-3.5 py-1.5 rounded-lg bg-[#C86D51] hover:bg-[#B25C41] text-white font-semibold transition shadow-sm">
+            <span>📽️ Open PD Slide Deck</span>
+          </button>
+        </nav>
+      </div>
+    </header>
+
+    <main class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-14">
+
+      <section class="card-surface rounded-2xl p-6 sm:p-8 shadow-sm">
+        <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
+          <div class="max-w-3xl space-y-4">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#F3EFEA] text-[#2A6F68] text-xs font-semibold tracking-wide uppercase">
+              <span>Research &amp; Classroom Action Hub</span>
+              <span>•</span>
+              <span>Vertical Whiteboards &amp; STEM Math</span>
+            </div>
+            <h2 class="text-2xl sm:text-3xl font-extrabold text-[#1F2937] tracking-tight">
+              Building the "Vibe" Before the Math &amp; Structuring Work at the Boards
+            </h2>
+            <p class="text-sm sm:text-base text-[#4B5563] leading-relaxed">
+              When students stand at vertical whiteboards in random groups, two moments determine whether collaboration thrives or stalls: the <strong>first 120 seconds before the math starts</strong> (dissolving awkwardness and 0.1-second snap judgments) and the <strong>micro-routines at the board</strong> (preventing one fast student from hogging the marker while others watch).
+            </p>
+          </div>
+
+          <div class="shrink-0 warm-panel rounded-2xl p-5 lg:w-72 space-y-3">
+            <div class="text-xs font-bold uppercase tracking-wider text-[#C86D51]">Presenting to Faculty or Class?</div>
+            <p class="text-xs text-[#4B5563] leading-relaxed">
+              Switch to the clean 15-slide presentation deck with fullscreen projector view, live timers, and speaker notes.
+            </p>
+            <button type="button" id="btn-launch-slides-hero" class="w-full py-2.5 px-4 rounded-xl bg-[#2A6F68] hover:bg-[#225A54] text-white text-xs sm:text-sm font-bold transition shadow-sm">
+              📽️ Launch 15-Slide PD Deck
+            </button>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-6 pt-6 border-t border-[#E5E0D8]">
+          <div class="warm-panel rounded-xl p-4">
+            <div class="text-xs font-semibold uppercase tracking-wider text-[#6B7280]">First 120 Seconds</div>
+            <div class="text-2xl font-extrabold text-[#C86D51] mt-1">Ritual First</div>
+            <p class="text-xs text-[#4B5563] mt-1">A 90-second shared micro-ritual shifts strangers from guarded associates to side-by-side allies.</p>
+          </div>
+          <div class="warm-panel rounded-xl p-4">
+            <div class="text-xs font-semibold uppercase tracking-wider text-[#6B7280]">Board Choreography</div>
+            <div class="text-2xl font-extrabold text-[#2A6F68] mt-1">1 Pen, 3 Minds</div>
+            <p class="text-xs text-[#4B5563] mt-1">Separating the Scribe from the Thinkers stops fast solvers from racing ahead silently.</p>
+          </div>
+          <div class="warm-panel rounded-xl p-4">
+            <div class="text-xs font-semibold uppercase tracking-wider text-[#6B7280]">Working Together Cue</div>
+            <div class="text-2xl font-extrabold text-[#2A6F68] mt-1">+48%</div>
+            <p class="text-xs text-[#4B5563] mt-1">Increase in persistence on hard tasks simply from cues of joint effort (Carr &amp; Walton, 2014).</p>
+          </div>
+          <div class="warm-panel rounded-xl p-4">
+            <div class="text-xs font-semibold uppercase tracking-wider text-[#6B7280]">Railside Calculus</div>
+            <div class="text-2xl font-extrabold text-[#2A6F68] mt-1">41% vs 27%</div>
+            <p class="text-xs text-[#4B5563] mt-1">Seniors enrolling in Calculus using Complex Instruction &amp; relational equity (Boaler, 2006).</p>
+          </div>
+        </div>
+      </section>
+
+      <section id="board-studio" class="space-y-6 scroll-mt-20">
+        <div class="max-w-3xl space-y-2">
+          <div class="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[#C86D51]">
+            <span>Interactive Classroom Toolkit</span>
+          </div>
+          <h2 class="text-xl sm:text-2xl font-bold text-[#1F2937]">1. Vertical Board Studio: Pre-Work Vibe Launchers &amp; Board Routines</h2>
+          <p class="text-sm sm:text-base text-[#4B5563] leading-relaxed">
+            Use <strong>Part A</strong> right after grouping students at the walls—before handing out the main math task—to spark quick rapport and psychological safety in under two minutes. Use <strong>Part B</strong> to establish clear, repeatable interactive processes while groups work at the vertical boards.
+          </p>
+        </div>
+
+        <div class="card-surface rounded-2xl p-6 sm:p-8 shadow-sm space-y-6">
+          <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4 pb-4 border-b border-[#E5E0D8]">
+            <div>
+              <span class="text-xs font-bold uppercase tracking-wider text-[#2A6F68]">Part A • Before the Math Starts (90–120 Seconds)</span>
+              <h3 class="text-lg sm:text-xl font-bold text-[#1F2937] mt-0.5">6 Fast "Vibe Launchers" at the Vertical Boards</h3>
+            </div>
+            <div class="flex items-center gap-2">
+              <button type="button" id="btn-random-opener" class="px-3.5 py-2 rounded-lg bg-[#C86D51] hover:bg-[#B25C41] text-white text-xs font-semibold transition shadow-sm">
+                🎲 Pick Random Opener
+              </button>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+            <div class="lg:col-span-5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-2.5" id="opener-list"></div>
+
+            <div class="lg:col-span-7 warm-panel rounded-2xl p-5 sm:p-6 space-y-4">
+              <div class="flex flex-wrap items-center justify-between gap-3 pb-3 border-b border-[#E5E0D8]">
+                <div>
+                  <span id="op-tag" class="text-xs font-bold uppercase tracking-wider text-[#C86D51]">Fast Commonality Ritual</span>
+                  <h4 id="op-title" class="text-lg font-bold text-[#1F2937] mt-0.5">1. The 60-Second "Board Corner" Commonality</h4>
+                </div>
+                <div class="flex items-center gap-2 bg-white border border-[#E5E0D8] rounded-xl px-3 py-1.5">
+                  <span id="timer-display" class="font-mono text-base font-extrabold text-[#2A6F68]">01:30</span>
+                  <button type="button" id="timer-toggle" class="px-2.5 py-1 rounded bg-[#2A6F68] text-white text-xs font-semibold hover:bg-[#225A54] transition">Start</button>
+                  <button type="button" id="timer-reset" class="px-2 py-1 rounded bg-[#F3EFEA] text-[#374151] text-xs font-semibold hover:bg-[#E5E0D8] transition">Reset</button>
+                </div>
+              </div>
+
+              <div class="space-y-3 text-sm text-[#374151]">
+                <div>
+                  <div class="text-xs font-bold uppercase tracking-wider text-[#6B7280]">Why It Builds Vibe (<em>Vibe</em> Mechanism)</div>
+                  <p id="op-why" class="mt-1 leading-relaxed">
+                    In <em>Vibe</em>, discovering unexpected shared ground dissolves 0.1-second guardedness and turns strangers into allies. Putting it in the top corner of the board creates a shared team artifact before math anxiety kicks in.
+                  </p>
+                </div>
+
+                <div class="bg-white border border-[#E5E0D8] rounded-xl p-4 space-y-2">
+                  <div class="text-xs font-bold uppercase tracking-wider text-[#2A6F68]">Exact Step-by-Step Routine</div>
+                  <ol id="op-steps" class="list-decimal list-inside space-y-1 text-xs sm:text-sm text-[#1F2937]">
+                    <li>Triads stand at their board; only one marker is uncapped.</li>
+                    <li>Groups have 60 seconds to find <strong>two non-math things</strong> all three members have in common (a food they hate, a show, a birth month season, a hobby).</li>
+                    <li>The Scribe writes those two items in the top-right corner as their "Board Crest," then passes the marker to a new Scribe to start the math.</li>
+                  </ol>
+                </div>
+
+                <div class="bg-[#FAF8F5] border border-[#E5E0D8] rounded-xl p-3.5 text-xs text-[#1F2937] italic">
+                  <span class="not-italic font-bold text-[#C86D51] block mb-0.5">Projectable / Say-Aloud Teacher Prompt:</span>
+                  <span id="op-script">“Before I reveal today’s problem, you have 90 seconds to find two non-math things all three of you have in common and write them in the top-right corner of your board. Go!”</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card-surface rounded-2xl p-6 sm:p-8 shadow-sm space-y-6">
+          <div class="space-y-2">
+            <span class="text-xs font-bold uppercase tracking-wider text-[#2A6F68]">Part B • At the Vertical Boards (Interactive Processes &amp; Routines)</span>
+            <h3 class="text-lg sm:text-xl font-bold text-[#1F2937]">6 Repeatable Board Routines to Keep Every Mind Active</h3>
+            <p class="text-xs sm:text-sm text-[#4B5563]">
+              Select a stage of the vertical board lesson below to inspect the exact physical choreography, verbal rules, and board layout conventions that prevent marker hogging and social loafing.
+            </p>
+          </div>
+
+          <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2 text-xs font-semibold" id="routine-tabs">
+            <button type="button" data-routine="driver" class="routine-btn p-3 rounded-xl border text-left transition tab-active">
+              <div class="opacity-80 text-[10px] uppercase">Core Rule</div>
+              <div class="mt-0.5">1. Scribe &amp; Navigators</div>
+            </button>
+            <button type="button" data-routine="silent" class="routine-btn p-3 rounded-xl border text-left transition tab-inactive">
+              <div class="opacity-80 text-[10px] uppercase">0–2 Mins</div>
+              <div class="mt-0.5">2. Silent Sketch First</div>
+            </button>
+            <button type="button" data-routine="noeraser" class="routine-btn p-3 rounded-xl border text-left transition tab-inactive">
+              <div class="opacity-80 text-[10px] uppercase">Error Norm</div>
+              <div class="mt-0.5">3. Strike-Through Rule</div>
+            </button>
+            <button type="button" data-routine="scout" class="routine-btn p-3 rounded-xl border text-left transition tab-inactive">
+              <div class="opacity-80 text-[10px] uppercase">When Stuck</div>
+              <div class="mt-0.5">4. 30-Sec Board Scout</div>
+            </button>
+            <button type="button" data-routine="twocolor" class="routine-btn p-3 rounded-xl border text-left transition tab-inactive">
+              <div class="opacity-80 text-[10px] uppercase">Deepening</div>
+              <div class="mt-0.5">5. Two-Color Audit</div>
+            </button>
+            <button type="button" data-routine="hotseat" class="routine-btn p-3 rounded-xl border text-left transition tab-inactive">
+              <div class="opacity-80 text-[10px] uppercase">Check-Out</div>
+              <div class="mt-0.5">6. Random Defender</div>
+            </button>
+          </div>
+
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch" id="routine-panel">
+            <div class="lg:col-span-7 warm-panel rounded-2xl p-5 sm:p-6 flex flex-col justify-between space-y-4">
+              <div class="space-y-3">
+                <div class="flex items-center justify-between gap-2">
+                  <h4 id="rt-title" class="text-base sm:text-lg font-bold text-[#1F2937]">1. "The Scribe Cannot Think Out Loud Alone" (Driver / Navigators)</h4>
+                  <span id="rt-cadence" class="shrink-0 px-2.5 py-1 rounded-full bg-white border border-[#E5E0D8] text-[11px] font-bold text-[#2A6F68]">Rotate every 4 mins</span>
+                </div>
+                <p id="rt-problem" class="text-xs sm:text-sm text-[#4B5563]">
+                  <strong class="text-[#C86D51]">Solves:</strong> The fastest algebra student grabbing the marker and silently solving the whole problem while two teammates watch passively.
+                </p>
+                <div class="bg-white border border-[#E5E0D8] rounded-xl p-4 space-y-2">
+                  <div class="text-xs font-bold uppercase tracking-wider text-[#2A6F68]">Interactive Process at the Wall</div>
+                  <ul id="rt-steps" class="list-disc list-inside space-y-1.5 text-xs sm:text-sm text-[#1F2937]">
+                    <li><strong>One Marker Rule:</strong> Only one marker is uncapped per board.</li>
+                    <li><strong>Voice-to-Hand Separation:</strong> The person holding the marker (the <em>Scribe</em>) is only allowed to write ideas spoken by the other two teammates (the <em>Navigators</em>).</li>
+                    <li><strong>Chime Rotation:</strong> Every 4 minutes, call <em>“Pass the pen!”</em> The marker moves clockwise so the quietest voice becomes the physical anchor of the board.</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="bg-[#FAF8F5] border border-[#E5E0D8] rounded-xl p-3.5 text-xs text-[#1F2937] italic">
+                <span class="not-italic font-bold text-[#2A6F68] block mb-0.5">Teacher Script:</span>
+                <span id="rt-script">“If your hand is holding the marker, your mouth is in listening mode—you can only write what your navigators tell you to write. Pass the pen every time you hear my chime.”</span>
+              </div>
+            </div>
+
+            <div class="lg:col-span-5 bg-[#FAF8F5] border-2 border-dashed border-[#C86D51]/50 rounded-2xl p-5 flex flex-col justify-between space-y-4">
+              <div class="space-y-1">
+                <div class="text-xs font-bold uppercase tracking-wider text-[#C86D51]">Visual Board Architecture</div>
+                <h5 id="rt-board-header" class="text-sm font-bold text-[#1F2937]">How Your Vertical Board Should Look</h5>
+              </div>
+
+              <div id="rt-board-visual" class="bg-white border border-[#E5E0D8] rounded-xl p-4 shadow-inner space-y-3 text-xs">
+                <div class="flex justify-between items-center border-b border-[#E5E0D8] pb-2">
+                  <span class="font-bold text-[#2A6F68]">Zone A: Given &amp; Diagram</span>
+                  <span class="px-2 py-0.5 rounded bg-[#F3EFEA] text-[#4B5563]">Crest: Both hate olives</span>
+                </div>
+                <div class="grid grid-cols-2 gap-2">
+                  <div class="p-2.5 rounded-lg bg-[#FAF8F5] border border-[#E5E0D8]">
+                    <div class="font-bold text-[#1F2937]">Navigators (2)</div>
+                    <p class="text-[11px] text-[#4B5563] mt-1">Propose next step, test numbers, check domain restrictions.</p>
+                  </div>
+                  <div class="p-2.5 rounded-lg bg-[#F3EFEA] border border-[#2A6F68]/40">
+                    <div class="font-bold text-[#2A6F68]">Scribe (1 Marker)</div>
+                    <p class="text-[11px] text-[#4B5563] mt-1">Writes teammates' words; asks "Why does that step work?"</p>
+                  </div>
+                </div>
+                <div class="p-2 rounded bg-[#FAF8F5] text-[11px] text-[#6B7280] text-center">
+                  Standing shoulder-to-shoulder • Eyes on board, not each other
+                </div>
+              </div>
+
+              <div id="rt-takeaway" class="text-xs text-[#4B5563] leading-relaxed">
+                <strong>Why it works:</strong> Enforces <em>Collaborative Cognitive Load</em>—thinking is externalized verbally before being recorded, preventing passive spectators.
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="wavelengths" class="space-y-6 scroll-mt-20">
+        <div class="max-w-3xl space-y-2">
+          <h2 class="text-xl sm:text-2xl font-bold text-[#1F2937]">2. The Four Wavelengths of Classroom Connection</h2>
+          <p class="text-sm sm:text-base text-[#4B5563] leading-relaxed">
+            Understanding <em>why</em> those vertical board rituals work comes down to Adam Grant’s <em>Vibe</em> framework. Rather than forcing every student to become recreational friends ("pals"), teachers achieve the highest academic leverage by structuring rituals that move students from transactional <strong>associates</strong> to purpose-driven <strong>allies</strong> and caring <strong>companions</strong>. Select any wavelength below to inspect its mechanism.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+          <div class="lg:col-span-5 grid grid-cols-2 lg:grid-cols-1 gap-3" id="wavelength-buttons">
+            <button type="button" data-mode="associate" class="wavelength-btn text-left p-4 rounded-xl border transition shadow-sm tab-inactive">
+              <div class="flex items-center justify-between">
+                <span class="font-bold text-sm sm:text-base">📋 Associate</span>
+                <span class="text-xs px-2 py-0.5 rounded bg-[#F3EFEA] text-[#4B5563]">Baseline</span>
+              </div>
+              <p class="text-xs mt-1 opacity-85">Transactional tie solving an immediate pragmatic need.</p>
+            </button>
+
+            <button type="button" data-mode="ally" class="wavelength-btn text-left p-4 rounded-xl border transition shadow-sm tab-active">
+              <div class="flex items-center justify-between">
+                <span class="font-bold text-sm sm:text-base">🧭 Ally (Primary Target)</span>
+                <span class="text-xs px-2 py-0.5 rounded bg-white/20 text-white">High Leverage</span>
+              </div>
+              <p class="text-xs mt-1 opacity-90">Purpose-driven partnership built on compatible goals ("makes you think").</p>
+            </button>
+
+            <button type="button" data-mode="pal" class="wavelength-btn text-left p-4 rounded-xl border transition shadow-sm tab-inactive">
+              <div class="flex items-center justify-between">
+                <span class="font-bold text-sm sm:text-base">🎲 Pal</span>
+                <span class="text-xs px-2 py-0.5 rounded bg-[#F3EFEA] text-[#4B5563]">Optional</span>
+              </div>
+              <p class="text-xs mt-1 opacity-85">Enjoyment-centered bond formed through humor and convenience.</p>
+            </button>
+
+            <button type="button" data-mode="companion" class="wavelength-btn text-left p-4 rounded-xl border transition shadow-sm tab-inactive">
+              <div class="flex items-center justify-between">
+                <span class="font-bold text-sm sm:text-base">🤝 Companion (Deep Trust)</span>
+                <span class="text-xs px-2 py-0.5 rounded bg-[#F3EFEA] text-[#4B5563]">High Leverage</span>
+              </div>
+              <p class="text-xs mt-1 opacity-85">Communal bond built on care, bounded vulnerability, and feeling seen.</p>
+            </button>
+          </div>
+
+          <div class="lg:col-span-7 card-surface rounded-2xl p-6 space-y-5 shadow-sm" id="wavelength-detail">
+            <div class="flex flex-wrap items-center justify-between gap-2 pb-4 border-b border-[#E5E0D8]">
+              <div>
+                <span id="wd-badge" class="text-xs font-semibold uppercase tracking-wider text-[#2A6F68]">Primary Academic Engine</span>
+                <h3 id="wd-title" class="text-xl font-bold text-[#1F2937] mt-0.5">Ally: Side-by-Side Joint Problem Solving</h3>
+              </div>
+              <div id="wd-posture" class="px-3 py-1.5 rounded-lg bg-[#F3EFEA] text-xs font-semibold text-[#1F2937]">
+                👁️ Attention: Side-by-side on shared problem
+              </div>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div class="warm-panel rounded-xl p-4 space-y-1.5">
+                <div class="text-xs font-bold uppercase tracking-wider text-[#6B7280]">Core Mechanism in <em>Vibe</em></div>
+                <p id="wd-mechanism" class="text-sm text-[#1F2937] leading-relaxed">
+                  People become allies when external tasks align their attention side by side (like assembling bar stools together or co-chairing a committee), eliminating self-conscious scrutiny and sparking mutual self-expansion.
+                </p>
+              </div>
+              <div class="warm-panel rounded-xl p-4 space-y-1.5">
+                <div class="text-xs font-bold uppercase tracking-wider text-[#6B7280]">Math Classroom Manifestation</div>
+                <p id="wd-math" class="text-sm text-[#1F2937] leading-relaxed">
+                  Two students standing shoulder-to-shoulder at a vertical whiteboard debugging an algebraic proof, testing counterexamples, and building on each other’s representations.
+                </p>
+              </div>
+            </div>
+
+            <div class="bg-[#FAF8F5] border border-[#E5E0D8] rounded-xl p-4 space-y-1.5">
+              <div class="text-xs font-bold uppercase tracking-wider text-[#C86D51]">Teacher Catalyst Move</div>
+              <p id="wd-catalyst" class="text-sm text-[#374151] leading-relaxed">
+                Use Visibly Random Groups at standing vertical non-permanent surfaces so students physically orient toward a shared mathematical object rather than facing off across desks.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="evidence" class="space-y-6 scroll-mt-20">
+        <div class="max-w-3xl space-y-2">
+          <h2 class="text-xl sm:text-2xl font-bold text-[#1F2937]">3. Empirical Evidence &amp; Cognitive Load Lab</h2>
+          <p class="text-sm sm:text-base text-[#4B5563] leading-relaxed">
+            Explore the interactive charts and controls below to compare experimental student gains, simulate when task complexity justifies vertical board group work under <strong>Collaborative Cognitive Load Theory (CCLT)</strong>, and examine why difficult math only bonds students when paired with explicit empathy.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <div class="card-surface rounded-2xl p-6 flex flex-col justify-between space-y-4 shadow-sm">
+            <div class="space-y-2">
+              <div class="flex flex-wrap items-center justify-between gap-2">
+                <h3 class="text-base sm:text-lg font-bold text-[#1F2937]">Experimental Impact Benchmarks</h3>
+                <div class="inline-flex rounded-lg border border-[#E5E0D8] p-0.5 bg-[#FAF8F5] text-xs font-medium">
+                  <button type="button" id="btn-metric-pct" class="px-2.5 py-1 rounded-md bg-[#2A6F68] text-white transition">Outcome Rates (%)</button>
+                  <button type="button" id="btn-metric-time" class="px-2.5 py-1 rounded-md text-[#374151] transition">Persistence (Mins)</button>
+                </div>
+              </div>
+              <p id="benchmark-caption" class="text-xs text-[#4B5563] leading-relaxed">
+                Comparing control vs. intervention conditions in Yeager et al.’s (2014) Wise Feedback essay revision experiment and Boaler’s (2006) 4-year Railside High School Calculus enrollment study.
+              </p>
+            </div>
+
+            <div class="chart-container">
+              <canvas id="benchmarksChart"></canvas>
+            </div>
+
+            <div class="warm-panel rounded-xl p-3 text-xs text-[#374151]">
+              <strong>Key Takeaway:</strong> Psychological cues of joint effort and high-standards assurance protect working memory from social threat, unlocking dramatic persistence and equity gains.
+            </div>
+          </div>
+
+          <div class="card-surface rounded-2xl p-6 flex flex-col justify-between space-y-4 shadow-sm">
+            <div class="space-y-3">
+              <div class="flex items-center justify-between gap-2">
+                <h3 class="text-base sm:text-lg font-bold text-[#1F2937]">Cognitive Load &amp; Task Complexity Simulator</h3>
+                <span id="complexity-badge" class="px-2.5 py-1 rounded-full text-xs font-bold bg-[#2A6F68] text-white">Complexity: 7 / 10 (Group-Worthy)</span>
+              </div>
+              <p class="text-xs text-[#4B5563] leading-relaxed">
+                Kirschner et al. (2018) show that group coordination imposes <strong>transaction costs</strong>. Slide task element interactivity to see when solo work is more efficient versus when a problem belongs at the vertical boards.
+              </p>
+              <div class="space-y-1">
+                <div class="flex justify-between text-xs font-semibold text-[#374151]">
+                  <span>1: Routine Drill (Keep at Desks)</span>
+                  <span>10: Multi-Concept Proof (Send to Boards)</span>
+                </div>
+                <input id="complexity-slider" type="range" min="1" max="10" value="7" class="w-full accent-[#2A6F68] cursor-pointer" />
+              </div>
+            </div>
+
+            <div class="chart-container">
+              <canvas id="ccltChart"></canvas>
+            </div>
+
+            <div id="cclt-advice" class="warm-panel rounded-xl p-3 text-xs text-[#1F2937]">
+              <strong>Verdict (Level 7):</strong> High element interactivity exceeds individual working memory. Collaborative distribution at the boards outweighs coordination costs—pair with a worked example or rotating Scribe roles.
+            </div>
+          </div>
+        </div>
+
+        <div class="card-surface rounded-2xl p-6 space-y-4 shadow-sm">
+          <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+            <div>
+              <h3 class="text-base sm:text-lg font-bold text-[#1F2937]">The "Shared Pain" Caveat: Why Hard Math Alone Isn’t Social Glue</h3>
+              <p class="text-xs sm:text-sm text-[#4B5563] mt-0.5">
+                Toggle the classroom conditions below to see why Bastian et al. (2014), Qi et al. (2020), and the 2022 preregistered replication warn against relying on raw academic difficulty alone to bond students.
+              </p>
+            </div>
+            <div class="flex flex-wrap gap-2 text-xs font-semibold">
+              <button type="button" data-pain="isolated" class="pain-btn px-3 py-2 rounded-lg border transition tab-inactive">1. Hard Math in Silence</button>
+              <button type="button" data-pain="unmediated" class="pain-btn px-3 py-2 rounded-lg border transition tab-inactive">2. Unmediated Group Struggle</button>
+              <button type="button" data-pain="empathy" class="pain-btn px-3 py-2 rounded-lg border transition tab-active">3. Shared Struggle + Empathy</button>
+            </div>
+          </div>
+
+          <div id="pain-outcome-box" class="warm-panel rounded-xl p-4 sm:p-5 grid grid-cols-1 md:grid-cols-3 gap-4 items-center">
+            <div class="md:col-span-2 space-y-1.5">
+              <div id="pain-status" class="text-xs font-bold uppercase tracking-wider text-[#2A6F68]">High Solidarity &amp; Cooperation (Qi et al., 2020)</div>
+              <h4 id="pain-title" class="text-base font-bold text-[#1F2937]">Explicitly Shared Experience Mediated by Empathy</h4>
+              <p id="pain-desc" class="text-xs sm:text-sm text-[#374151] leading-relaxed">
+                In Qi et al.’s (2020) 2×2 experiment, difficult experiences fostered bonding and cooperation <strong>only when participants actively shared the experience with empathy</strong> (indirect effect = 1.17). Closing rituals like micro-pebbling ("Who helped you today?") convert math struggle into solidarity.
+              </p>
+            </div>
+            <div class="bg-white border border-[#E5E0D8] rounded-xl p-4 text-center space-y-1">
+              <div class="text-xs text-[#6B7280] font-medium">Predicted Classroom Effect</div>
+              <div id="pain-metric" class="text-lg font-extrabold text-[#2A6F68]">Strong Ally Bonding</div>
+              <div id="pain-sub" class="text-xs text-[#4B5563]">Protects working memory from threat</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="playbook" class="space-y-6 scroll-mt-20">
+        <div class="max-w-3xl space-y-2">
+          <h2 class="text-xl sm:text-2xl font-bold text-[#1F2937]">4. Eight-Strategy Classroom Playbook</h2>
+          <p class="text-sm sm:text-base text-[#4B5563] leading-relaxed">
+            Each strategy below integrates a relational mechanism from <em>Vibe</em> with an evidence-based mathematics routine. Filter by the specific classroom breakdown you want to solve.
+          </p>
+        </div>
+
+        <div class="flex flex-wrap items-center gap-2 text-xs font-medium" id="playbook-filters">
+          <span class="text-[#6B7280] font-semibold mr-1">Filter by Failure Mode:</span>
+          <button type="button" data-filter="all" class="filter-btn px-3 py-1.5 rounded-full border transition tab-active">All 8 Strategies</button>
+          <button type="button" data-filter="cliques" class="filter-btn px-3 py-1.5 rounded-full border transition tab-inactive">Cliques &amp; Guardedness</button>
+          <button type="button" data-filter="dominance" class="filter-btn px-3 py-1.5 rounded-full border transition tab-inactive">Status &amp; Social Loafing</button>
+          <button type="button" data-filter="overload" class="filter-btn px-3 py-1.5 rounded-full border transition tab-inactive">Cognitive Overload &amp; Quitting</button>
+          <button type="button" data-filter="conflict" class="filter-btn px-3 py-1.5 rounded-full border transition tab-inactive">Disagreement &amp; Silence</button>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-5" id="strategy-grid"></div>
+      </section>
+
+      <section id="tailor" class="space-y-6 scroll-mt-20">
+        <div class="max-w-3xl space-y-2">
+          <h2 class="text-xl sm:text-2xl font-bold text-[#1F2937]">5. Interactive Classroom Strategy Tailorer</h2>
+          <p class="text-sm sm:text-base text-[#4B5563] leading-relaxed">
+            Configure your classroom profile below to generate a prioritized 3-step implementation sequence combining pre-work vibe launchers, vertical board routines, and accountability structures.
+          </p>
+        </div>
+
+        <div class="card-surface rounded-2xl p-6 sm:p-8 shadow-sm grid grid-cols-1 lg:grid-cols-12 gap-8">
+          <form id="tailor-form" class="lg:col-span-5 space-y-4">
+            <div>
+              <label for="t-level" class="block text-xs font-bold uppercase tracking-wider text-[#374151] mb-1">1. Course Level &amp; Student Age</label>
+              <select id="t-level" class="w-full rounded-lg border border-[#E5E0D8] bg-[#FAF8F5] px-3 py-2 text-sm text-[#1F2937]">
+                <option value="middle">Middle School Math (Grades 6–8)</option>
+                <option value="hs-core" selected>High School Algebra / Geometry / Alg 2</option>
+                <option value="ap-stem">AP Calculus / Precalculus / College STEM</option>
+              </select>
+            </div>
+
+            <div>
+              <label for="t-space" class="block text-xs font-bold uppercase tracking-wider text-[#374151] mb-1">2. Physical Classroom Setup</label>
+              <select id="t-space" class="w-full rounded-lg border border-[#E5E0D8] bg-[#FAF8F5] px-3 py-2 text-sm text-[#1F2937]">
+                <option value="vnps" selected>Wall/Easel Whiteboards Available (VNPS)</option>
+                <option value="desks">Seated Desks or Group Tables Only</option>
+              </select>
+            </div>
+
+            <div>
+              <label for="t-pain" class="block text-xs font-bold uppercase tracking-wider text-[#374151] mb-1">3. Primary Collaboration Pain Point</label>
+              <select id="t-pain" class="w-full rounded-lg border border-[#E5E0D8] bg-[#FAF8F5] px-3 py-2 text-sm text-[#1F2937]">
+                <option value="cliques" selected>Awkward Silence Before Starting / Cliques</option>
+                <option value="dominance">One Fast Student Hogs the Marker / Loafing</option>
+                <option value="quitting">Giving Up on Multi-Step Struggle</option>
+                <option value="conflict">Tiptoeing Around Errors / Unproductive Friction</option>
+              </select>
+            </div>
+
+            <div>
+              <label for="t-autonomy" class="block text-xs font-bold uppercase tracking-wider text-[#374151] mb-1">4. Assessment &amp; Pacing Flexibility</label>
+              <select id="t-autonomy" class="w-full rounded-lg border border-[#E5E0D8] bg-[#FAF8F5] px-3 py-2 text-sm text-[#1F2937]">
+                <option value="high" selected>Flexible (Can use Group Tests &amp; Revision Cycles)</option>
+                <option value="tight">Strict Departmental Pacing &amp; Common Exams</option>
+              </select>
+            </div>
+
+            <div>
+              <label for="t-medium" class="block text-xs font-bold uppercase tracking-wider text-[#374151] mb-1">5. Primary Problem-Solving Medium</label>
+              <select id="t-medium" class="w-full rounded-lg border border-[#E5E0D8] bg-[#FAF8F5] px-3 py-2 text-sm text-[#1F2937]">
+                <option value="physical" selected>Physical Vertical Boards, Paper &amp; Manipulatives</option>
+                <option value="digital">Digital Tools (Desmos, Shared Tablets, Online)</option>
+              </select>
+            </div>
+
+            <button type="submit" class="w-full py-2.5 px-4 rounded-xl bg-[#2A6F68] hover:bg-[#225A54] text-white font-semibold text-sm transition shadow-sm">
+              Generate Tailored Action Plan
+            </button>
+          </form>
+
+          <div class="lg:col-span-7 warm-panel rounded-2xl p-6 flex flex-col justify-between space-y-5" id="tailor-output">
+            <div class="space-y-4" id="tailor-results"></div>
+            <div class="pt-4 border-t border-[#E5E0D8] text-xs text-[#6B7280]">
+              Tip: Run the exact same 90-second opener and Scribe-Navigator rule for two full weeks until the ritual becomes automatic.
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <footer class="border-t border-[#E5E0D8] bg-[#F3EFEA] mt-16 py-8">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-[#6B7280]">
+        <div>
+          Synthesized from Adam Grant’s <em>Vibe</em> (2026), Boaler (2006), Liljedahl (2021), Kirschner et al. (2018), Yeager et al. (2014), Carr &amp; Walton (2014), and Qi et al. (2020).
+        </div>
+        <div class="font-semibold text-[#374151]">Mathematical Solidarity Hub</div>
+      </div>
+    </footer>
+  </div>
+
+  <div id="slides-view" class="hidden min-h-screen flex flex-col bg-[#FAF8F5]">
+    <header id="slides-topbar" class="bg-white border-b border-[#E5E0D8] px-4 sm:px-6 py-3">
+      <div class="max-w-6xl mx-auto flex flex-wrap items-center justify-between gap-3">
+        <div class="flex items-center gap-3">
+          <button type="button" id="btn-back-hub" class="px-3 py-1.5 rounded-lg bg-[#F3EFEA] hover:bg-[#E5E0D8] text-[#1F2937] text-xs font-semibold transition">
+            ← Research Hub
+          </button>
+          <div class="h-4 w-px bg-[#E5E0D8]"></div>
+          <span class="text-xs sm:text-sm font-bold text-[#1F2937]">PD &amp; Classroom Routine Deck</span>
+          <span id="slide-counter-badge" class="px-2.5 py-0.5 rounded-full bg-[#2A6F68]/10 text-[#2A6F68] text-xs font-bold">Slide 1 / 15</span>
+        </div>
+
+        <div class="flex items-center gap-2">
+          <button type="button" id="btn-copy-slide-link" class="px-3 py-1.5 rounded-lg border border-[#E5E0D8] bg-[#FAF8F5] hover:bg-[#F3EFEA] text-xs font-semibold text-[#374151] transition">
+            🔗 Copy Deck URL
+          </button>
+          <button type="button" id="btn-slide-grid" class="px-3 py-1.5 rounded-lg border border-[#E5E0D8] bg-white hover:bg-[#F3EFEA] text-xs font-semibold text-[#374151] transition">
+            📑 All Slides
+          </button>
+          <button type="button" id="btn-toggle-notes" class="px-3 py-1.5 rounded-lg border border-[#E5E0D8] bg-white hover:bg-[#F3EFEA] text-xs font-semibold text-[#374151] transition">
+            📝 Notes: On
+          </button>
+          <button type="button" id="btn-projector-mode" class="px-3.5 py-1.5 rounded-lg bg-[#2A6F68] hover:bg-[#225A54] text-white text-xs font-bold transition shadow-sm">
+            🖥️ Projector Mode (F)
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <div id="slides-stage-wrapper" class="flex-1 flex flex-col justify-center max-w-6xl w-full mx-auto px-4 sm:px-6 py-6 space-y-4">
+      <div id="slide-stage" class="card-surface rounded-3xl p-6 sm:p-10 lg:p-12 shadow-md min-h-[440px] sm:min-h-[500px] flex flex-col justify-between relative">
+      </div>
+
+      <div class="flex items-center justify-between gap-4">
+        <button type="button" id="btn-prev-slide" class="px-5 py-2.5 rounded-xl border border-[#E5E0D8] bg-white hover:bg-[#F3EFEA] text-sm font-bold text-[#1F2937] transition shadow-sm">
+          ← Previous
+        </button>
+
+        <div class="hidden sm:flex items-center gap-1.5" id="slide-dots"></div>
+
+        <button type="button" id="btn-next-slide" class="px-5 py-2.5 rounded-xl bg-[#2A6F68] hover:bg-[#225A54] text-sm font-bold text-white transition shadow-sm">
+          Next →
+        </button>
+      </div>
+
+      <div id="slides-notes-panel" class="warm-panel rounded-2xl p-4 sm:p-5 text-xs sm:text-sm text-[#374151] flex items-start gap-3">
+        <span class="px-2 py-0.5 rounded bg-[#C86D51] text-white font-bold text-[11px] uppercase shrink-0 mt-0.5">PD / Teacher Note</span>
+        <p id="slide-note-text" class="leading-relaxed"></p>
+      </div>
+    </div>
+
+    <div id="slide-grid-modal" class="hidden fixed inset-0 z-50 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4">
+      <div class="bg-white rounded-2xl max-w-4xl w-full max-h-[85vh] overflow-y-auto p-6 space-y-4 shadow-xl">
+        <div class="flex items-center justify-between border-b border-[#E5E0D8] pb-3">
+          <h3 class="text-lg font-bold text-[#1F2937]">Jump to Any Slide (15-Slide Deck)</h3>
+          <button type="button" id="btn-close-grid" class="px-3 py-1 rounded-lg bg-[#F3EFEA] text-xs font-bold text-[#374151] hover:bg-[#E5E0D8]">Close ✕</button>
+        </div>
+        <div id="slide-grid-items" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3"></div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const openersData = [
+      {
+        id: 0,
+        shortTitle: "1. Board Corner Commonality",
+        duration: 90,
+        tag: "Fast Commonality Ritual • 90 Secs",
+        title: "1. The 60-Second \"Board Corner\" Commonality",
+        why: "In Vibe, discovering unexpected shared ground dissolves 0.1-second guardedness and turns strangers into allies. Putting it in the top corner of the board creates a shared team artifact before math anxiety kicks in.",
+        steps: [
+          "Triads stand at their board; only one marker is uncapped.",
+          "Groups have 60 seconds to find two non-math things all three members have in common (a food they hate, a show, a birth month season, a hobby).",
+          "The Scribe writes those two items in the top-right corner as their 'Board Crest,' then passes the marker to a new Scribe to start the math."
+        ],
+        script: "“Before I reveal today’s problem, you have 90 seconds to find two non-math things all three of you have in common and write them in the top-right corner of your board. Go!”"
+      },
+      {
+        id: 1,
+        shortTitle: "2. Micro-Origin Struggle Share",
+        duration: 120,
+        tag: "Bounded Vulnerability • 120 Secs",
+        title: "2. The 2-Minute \"Resolved Math Struggle\" Check-In",
+        why: "Vibe shows that bounded vulnerability—sharing a past struggle that you already overcame—builds immediate Companion trust without triggering distress, activating sonder across skill levels.",
+        steps: [
+          "Pair up shoulder-to-shoulder at the board before launching a hard unit (e.g., proofs, factoring, related rates).",
+          "Each student takes 45 seconds to name one math idea from an earlier year that confused them at first—and what helped it finally click.",
+          "Finish with a quick fist-bump or board tap before reading Problem 1."
+        ],
+        script: "“Take 45 seconds each: tell your board partners one math topic from a past class that tripped you up at first, and how you eventually got over the hump.”"
+      },
+      {
+        id: 2,
+        shortTitle: "3. Low-Floor Intuitive Guess",
+        duration: 90,
+        tag: "Side-by-Side Ally Posture • 90 Secs",
+        title: "3. Low-Floor Estimation & \"Gut Guess\" Lineup",
+        why: "Removes fear of being wrong by asking for intuition before algebra. Everyone writes a number on the board immediately, breaking the ice through low-stakes play.",
+        steps: [
+          "Display a visual or real-world math scenario without equations (e.g., a filling water tank or geometric growth image).",
+          "In 30 seconds, each student writes their personal 'Too Low,' 'Too High,' and 'Gut Guess' directly on the board.",
+          "Groups spend 60 seconds agreeing on a single Team Estimate to box in the center before formal solving begins."
+        ],
+        script: "“No calculators, no formulas yet—everyone grab the pen for 5 seconds and write your gut guess on the board, then agree on one Team Estimate to put in a box.”"
+      },
+      {
+        id: 3,
+        shortTitle: "4. Two Truths & A Math Lie",
+        duration: 120,
+        tag: "Playful Pal-to-Ally Bridge • 120 Secs",
+        title: "4. 2-Minute \"Spot the Algebraic Trap\"",
+        why: "Unites the group against an external 'enemy' (a subtle mathematical error). When students hunt a flaw together shoulder-to-shoulder, they immediately adopt an Ally posture.",
+        steps: [
+          "Project three short worked lines on the screen—two mathematically valid, one containing a classic trap (e.g., dividing by zero or distributing an exponent).",
+          "Groups have 90 seconds at their board to recreate the flawed line and draw a big red X explaining why it breaks.",
+          "First group to write a clear 5-word explanation leads the 15-second share-out."
+        ],
+        script: "“One of these three lines is a classic algebra trap. You have two minutes at your boards to find the lie and write a 5-word warning label for why it fails.”"
+      },
+      {
+        id: 4,
+        shortTitle: "5. Name-Claim & Pen Relay",
+        duration: 60,
+        tag: "Equality of Voice Ritual • 60 Secs",
+        title: "5. The 60-Second \"Claim the Space\" Relay",
+        why: "Research on interaction rituals shows that physical touchpoints early in a session predict equal speaking time later. Having every student touch the marker in the first minute prevents passive spectators.",
+        steps: [
+          "Each student writes their name at the top of the board and draws one quick border box for their group's work.",
+          "Student A draws the given diagram, Student B labels the known values, and Student C writes the target question in their own words.",
+          "Only after all three have written on the board does algebra begin."
+        ],
+        script: "“Before any equations go up, run a 60-second relay: Person 1 draws the sketch, Person 2 labels the numbers, Person 3 writes what we are actually solving for.”"
+      },
+      {
+        id: 5,
+        shortTitle: "6. \"Our Blind Spot\" Premortem",
+        duration: 90,
+        tag: "Shared Vigilance • 90 Secs",
+        title: "6. The 90-Second Error Premortem",
+        why: "Reframes mistakes from personal embarrassment into a shared team hazard. Predicting errors together primes collective working memory and lowers defensiveness.",
+        steps: [
+          "Groups read the prompt together without solving.",
+          "In the bottom corner under a header labeled 'Watch Out!', they write one specific mistake that could derail them (e.g., 'watch negative signs' or 'check units').",
+          "During the lesson, any teammate can point to the 'Watch Out!' corner without sounding critical."
+        ],
+        script: "“Read the problem, don’t solve it yet. Write one 'Watch Out!' warning in the bottom corner of your board for the mistake most likely to trip up your group.”"
+      }
+    ];
+
+    const routinesData = {
+      driver: {
+        title: "1. \"The Scribe Cannot Think Out Loud Alone\" (Driver / Navigators)",
+        cadence: "Rotate every 4 mins",
+        problem: "The fastest algebra student grabbing the marker and silently solving the whole problem while two teammates watch passively.",
+        steps: [
+          "One Marker Rule: Only one marker is uncapped per board.",
+          "Voice-to-Hand Separation: The person holding the marker (the Scribe) is only allowed to write ideas spoken by the other two teammates (the Navigators).",
+          "Chime Rotation: Every 4 minutes, call “Pass the pen!” The marker moves clockwise so the quietest voice becomes the physical anchor of the board."
+        ],
+        script: "“If your hand is holding the marker, your mouth is in listening mode—you can only write what your navigators tell you to write. Pass the pen every time you hear my chime.”",
+        boardHeader: "How Your Vertical Board Should Look",
+        boardHtml: `
+          <div class="flex justify-between items-center border-b border-[#E5E0D8] pb-2">
+            <span class="font-bold text-[#2A6F68]">Zone A: Given &amp; Diagram</span>
+            <span class="px-2 py-0.5 rounded bg-[#F3EFEA] text-[#4B5563]">Crest: Both hate olives</span>
+          </div>
+          <div class="grid grid-cols-2 gap-2">
+            <div class="p-2.5 rounded-lg bg-[#FAF8F5] border border-[#E5E0D8]">
+              <div class="font-bold text-[#1F2937]">Navigators (2)</div>
+              <p class="text-[11px] text-[#4B5563] mt-1">Propose next step, test numbers, check domain restrictions.</p>
+            </div>
+            <div class="p-2.5 rounded-lg bg-[#F3EFEA] border border-[#2A6F68]/40">
+              <div class="font-bold text-[#2A6F68]">Scribe (1 Marker)</div>
+              <p class="text-[11px] text-[#4B5563] mt-1">Writes teammates' words; asks "Why does that step work?"</p>
+            </div>
+          </div>
+          <div class="p-2 rounded bg-[#FAF8F5] text-[11px] text-[#6B7280] text-center">
+            Standing shoulder-to-shoulder • Eyes on board, not each other
+          </div>
+        `,
+        takeaway: "Enforces Collaborative Cognitive Load—thinking is externalized verbally before being recorded, preventing passive spectators."
+      },
+      silent: {
+        title: "2. The \"90-Second Silent Sketch\" Launch",
+        cadence: "First 90 secs of task",
+        problem: "Extroverted or dominant students immediately dictating an approach before cautious or reflective thinkers can even read the problem.",
+        steps: [
+          "Zero Talking for 90 Seconds: After reading the prompt, nobody speaks.",
+          "Everyone Annotates: Students take turns stepping up to underline key constraints, draw a picture, or write a small numerical test case on the board.",
+          "Point-and-Build: When the chime sounds, the group must start their discussion by pointing to something already drawn on the board."
+        ],
+        script: "“For the first 90 seconds, voices are off. Step up to the board, underline a clue, draw a diagram, or test a small number—then we talk.”",
+        boardHeader: "Silent Sketch Board State (0:00 – 1:30)",
+        boardHtml: `
+          <div class="p-2.5 rounded-lg bg-[#FAF8F5] border border-[#E5E0D8] space-y-1">
+            <div class="font-bold text-[#1F2937]">Visible Footprints from All 3 Students:</div>
+            <p class="text-[11px] text-[#4B5563]">• Student 1: Underlined "integer solutions only"</p>
+            <p class="text-[11px] text-[#4B5563]">• Student 2: Drew a quick coordinate sketch</p>
+            <p class="text-[11px] text-[#4B5563]">• Student 3: Tested n = 1 and n = 2 on the side</p>
+          </div>
+          <div class="p-2 rounded bg-[#F3EFEA] text-[11px] text-[#2A6F68] font-semibold text-center">
+            Result: Every student has skin in the game before debate begins
+          </div>
+        `,
+        takeaway: "Protects processing time for introverts and novices, creating 3 entry points on the board instead of 1 monologue."
+      },
+      noeraser: {
+        title: "3. The \"No-Eraser Strike-Through\" Rule",
+        cadence: "Continuous norm",
+        problem: "Groups wiping away an entire board the moment they hit a dead end—erasing evidence of their thinking and repeating the exact same mistake 5 minutes later.",
+        steps: [
+          "Ban Board Erasing: Keep erasers on the teacher's desk during active problem solving.",
+          "Single-Line Strike-Through: When a path stalls, draw one neat line through the dead end and write a 3-word label explaining why it failed (e.g., 'led to 0 = 0').",
+          "Harvest Clues: Start the new attempt beside the struck-through work so the group can reuse valid intermediate expressions."
+        ],
+        script: "“Put the erasers down—if a strategy hits a wall, draw one line through it and label why it stalled. Dead ends are data, not mess.”",
+        boardHeader: "Preserving Thinking History on the Wall",
+        boardHtml: `
+          <div class="grid grid-cols-2 gap-2">
+            <div class="p-2.5 rounded-lg bg-[#FAF8F5] border border-[#C86D51]/40">
+              <div class="font-bold text-[#C86D51] line-through">Attempt 1: Expand all</div>
+              <p class="text-[11px] text-[#4B5563] mt-1">Label: "Too messy—degree 4!"</p>
+            </div>
+            <div class="p-2.5 rounded-lg bg-[#F3EFEA] border border-[#2A6F68]/40">
+              <div class="font-bold text-[#2A6F68]">Attempt 2: Factor first</div>
+              <p class="text-[11px] text-[#4B5563] mt-1">Uses insight from Attempt 1 to spot common factor.</p>
+            </div>
+          </div>
+          <div class="p-2 rounded bg-[#FAF8F5] text-[11px] text-[#6B7280] text-center">
+            Normalizes productive struggle &amp; makes revision visible
+          </div>
+        `,
+        takeaway: "Directly operationalizes Vibe’s bounded vulnerability: mistakes stay visible as stepping stones rather than shameful secrets."
+      },
+      scout: {
+        title: "4. The \"30-Second Board Scout\" (Knowledge Mobility)",
+        cadence: "When a group stalls",
+        problem: "Groups sitting frozen waiting for the teacher to rescue them, or copying an answer blindly from neighbors.",
+        steps: [
+          "Dispatch One Scout: When a group is stuck for 2+ minutes, send one member (the Scout) to visit another board.",
+          "Questions Only, No Copying: The Scout cannot take a photo or copy equations—they may only ask the neighboring group one question about how they started or organized their board.",
+          "Report Back: The Scout returns and explains the structural hint to their own team."
+        ],
+        script: "“Your board is paused—send one Scout to visit another wall for 30 seconds. Bring back a strategy or a question, never a final answer.”",
+        boardHeader: "Cross-Board Idea Flow",
+        boardHtml: `
+          <div class="flex items-center justify-between gap-2 text-center">
+            <div class="flex-1 p-2.5 rounded-lg bg-[#FAF8F5] border border-[#E5E0D8]">
+              <div class="font-bold text-[#1F2937]">Home Board</div>
+              <div class="text-[11px] text-[#C86D51] mt-0.5">Stalled at setup</div>
+            </div>
+            <div class="font-bold text-[#2A6F68] text-xs">➔ 30s Scout ➔</div>
+            <div class="flex-1 p-2.5 rounded-lg bg-[#F3EFEA] border border-[#2A6F68]/40">
+              <div class="font-bold text-[#2A6F68]">Neighbor Board</div>
+              <div class="text-[11px] text-[#4B5563] mt-0.5">"We made a table first!"</div>
+            </div>
+          </div>
+          <div class="p-2 rounded bg-[#FAF8F5] text-[11px] text-[#6B7280] text-center">
+            Turns the whole classroom into one interconnected Ally network
+          </div>
+        `,
+        takeaway: "Builds class-wide solidarity (Liljedahl’s knowledge mobility) while keeping cognitive ownership inside each triad."
+      },
+      twocolor: {
+        title: "5. The \"Two-Color Proof & Critique\" Pass",
+        cadence: "Mid-to-late task",
+        problem: "Groups rushing to box a final number without checking domain restrictions, units, or edge cases.",
+        steps: [
+          "Solve in Color 1 (Black/Blue): Complete the core solution path.",
+          "Audit in Color 2 (Red/Green): Swap markers and switch into 'Skeptic Mode' for 2 minutes. Every step on the board must receive a second-color justification tag (e.g., 'distributive property' or 'x ≠ 0').",
+          "Stress-Test Edge Cases: Write one boundary value in Color 2 to prove the answer holds."
+        ],
+        script: "“Before you call me over, switch to your second marker color and annotate why each line is legal—try to break your own solution.”",
+        boardHeader: "Two-Layer Board Verification",
+        boardHtml: `
+          <div class="p-2.5 rounded-lg bg-[#FAF8F5] border border-[#E5E0D8] space-y-1.5">
+            <div class="font-bold text-[#1F2937]">Black Marker: Algebraic Steps</div>
+            <div class="font-bold text-[#C86D51]">Red/Green Marker: Justification &amp; Edge Check</div>
+            <p class="text-[11px] text-[#4B5563]">"Checked x = -3: extraneous! Crossed out with reason."</p>
+          </div>
+          <div class="p-2 rounded bg-[#F3EFEA] text-[11px] text-[#2A6F68] font-semibold text-center">
+            Transforms polite agreement into rigorous Ally critique
+          </div>
+        `,
+        takeaway: "Channels Vibe’s 'virtue within vice'—skepticism is framed as protecting the team from subtle traps."
+      },
+      hotseat: {
+        title: "6. The \"30-Second Team Huddle & Random Defender\"",
+        cadence: "Before teacher check",
+        problem: "One confident student explaining the board to the teacher while teammates nod along without truly understanding.",
+        steps: [
+          "Pre-Check Huddle: Before raising hands, the group takes 30 seconds to quiz each other on every line of their board.",
+          "Random Selection: When the teacher arrives, the teacher points to any one member to explain a specific transition.",
+          "Walk-Away Coaching: If that student hesitates, the teacher smiles and says, 'Take 60 seconds to coach each other on that step—I’ll be right back!'—never explaining it for them."
+        ],
+        script: "“I’m going to pick one person at random to explain Step 3. Take 30 seconds right now to make sure everyone at your board can defend it.”",
+        boardHeader: "Shared Mastery Check",
+        boardHtml: `
+          <div class="p-2.5 rounded-lg bg-[#F3EFEA] border border-[#2A6F68]/40 space-y-1">
+            <div class="font-bold text-[#2A6F68]">The 30-Second Huddle Rule</div>
+            <p class="text-[11px] text-[#1F2937]">Fast solvers automatically become peer tutors because team success depends on everyone’s understanding.</p>
+          </div>
+          <div class="p-2 rounded bg-[#FAF8F5] text-[11px] text-[#6B7280] text-center">
+            Eliminates social loafing without punitive grading
+          </div>
+        `,
+        takeaway: "Activates the 'Giver’s Boost'—explaining a step to a teammate deepens retention for the explainer as well as the learner."
+      }
+    };
+
+    const wavelengthData = {
+      associate: {
+        badge: "Baseline Transactional Mode",
+        title: "Associate: Outcome-Focused Exchange",
+        posture: "👁️ Attention: Individual worksheet / answer check",
+        mechanism: "Transactional tie built solely to solve an immediate pragmatic need without mutual investment in each other’s thinking or inner experience.",
+        math: "Checking homework answers ('What did you get for #4?') or copying a step without discussing conceptual reasoning.",
+        catalyst: "Replace single-answer worksheets with multi-representation tasks at vertical boards where no single student holds the complete solution alone."
+      },
+      ally: {
+        badge: "Primary Academic Engine",
+        title: "Ally: Side-by-Side Joint Problem Solving",
+        posture: "👁️ Attention: Side-by-side on shared problem",
+        mechanism: "People become allies when external tasks align their attention side by side (like assembling bar stools together or co-chairing a committee), eliminating self-conscious scrutiny and sparking mutual self-expansion.",
+        math: "Two students standing shoulder-to-shoulder at a vertical whiteboard debugging an algebraic proof, testing counterexamples, and building on each other’s representations.",
+        catalyst: "Use Visibly Random Groups at standing vertical non-permanent surfaces with a 90-second vibe opener so students physically orient toward a shared mathematical object."
+      },
+      pal: {
+        badge: "Optional Social Rapport",
+        title: "Pal: Lighthearted Shared Process",
+        posture: "👁️ Attention: Playful low-stakes interaction",
+        mechanism: "Enjoyment-centered bond formed through convenience and fun ('makes you laugh'). Helpful for warmth, though Vibe warns against forcing every classmate to become recreational friends.",
+        math: "Inside jokes in the board corner crest, playful banter during low-floor estimation warm-ups, or spotting 'Two Truths & a Math Lie'.",
+        catalyst: "Keep pre-work openers low-stakes and welcoming, while anchoring core instructional time in Ally and Companion behaviors."
+      },
+      companion: {
+        badge: "Deep Relational Trust",
+        title: "Companion: Communal Care & Bounded Vulnerability",
+        posture: "👁️ Attention: Face-to-face empathy & witnessing",
+        mechanism: "Communal bond built on confiding, feeling seen, and bounded vulnerability (sharing resolved struggles rather than raw distress), activating sonder.",
+        math: "A teammate recognizing a peer’s math anxiety, sharing how they once struggled with factoring or proofs, and staying patient during revision.",
+        catalyst: "Open tough units with 2-minute resolved math origin stories and close with micro-pebbling ('Who helped you today, and how?')."
+      }
+    };
+
+    const strategiesData = [
+      {
+        id: 1,
+        category: "cliques",
+        title: "1. Standing Vertical Boards + 90-Sec Vibe Launchers",
+        cadence: "Daily / 3–4x Weekly",
+        mechanism: "Side-by-side 'ally' attention (Vibe); non-permanent risk-taking; breaking cliques & 0.1s snap judgments (Liljedahl).",
+        failure: "Awkward silence before starting, fixed social cliques, fear of permanent mistakes.",
+        protocol: "Shuffle students transparently into triads at standing whiteboards (one marker per group). Run a 90-second commonality or low-floor estimation opener in the corner of the board before revealing the main task.",
+        script: "“Find your board, grab one marker, and take 90 seconds to write two non-math things you all have in common in the top corner before we launch.”"
+      },
+      {
+        id: 2,
+        category: "cliques",
+        title: "2. Brief Origin & Bounded Vulnerability Openers",
+        cadence: "Start of Unit / New Teams",
+        mechanism: "Interaction rituals (Collins/Goffman); ISS origin stories (Vibe); bounded vulnerability activating sonder.",
+        failure: "Guardedness, math anxiety, and snap judgments toward unfamiliar peers.",
+        protocol: "Before launching a notoriously hard unit (proofs, related rates, rational functions), give partners 2 minutes for a resolved-struggle prompt—sharing past growth rather than raw distress.",
+        script: "“Tell your board partners one concept in an earlier math class that confused you at first before it finally clicked—and what helped you get over the hump.”"
+      },
+      {
+        id: 3,
+        category: "overload",
+        title: "3. Complexity-Gated 'Group-Worthy' Tasks",
+        cadence: "High-Interactivity Lessons",
+        mechanism: "CCLT boundary conditions (Kirschner et al.); Collective Working Memory; Multidimensional math (Boaler).",
+        failure: "High transaction costs on simple drills; fast finishers racing ahead alone.",
+        protocol: "Keep low-element-interactivity procedural drills at desks so coordination overhead does not waste working memory. Send groups to vertical boards for multi-step problems requiring algebraic, graphical, and verbal synthesis.",
+        script: "“This problem has three interlocking constraints—too many pieces for one working memory. Head to your boards, sketch first, and synthesize.”"
+      },
+      {
+        id: 4,
+        category: "dominance",
+        title: "4. Scribe-Navigator Rotation + Random Defender",
+        cadence: "Every Board Task",
+        mechanism: "Optimal Distinctiveness Theory; Complex Instruction roles (Boaler); mitigating social loafing.",
+        failure: "One fast solver hogging the marker; passive answer-copying.",
+        protocol: "The Scribe can only write ideas spoken by the two Navigators; rotate the marker every 4 minutes on a chime. When a group finishes, pick one random member to defend a step; if they hesitate, walk away so the team can coach them.",
+        script: "“If you hold the marker, your mouth is in listening mode. And when you finish, I’ll ask one random teammate to defend Step 3.”"
+      },
+      {
+        id: 5,
+        category: "dominance",
+        title: "5. Public 'Assigning Competence' Moves",
+        cadence: "Continuous During Circulation",
+        mechanism: "Status intervention (Cohen & Lotan); Vibe’s Virtue Amplification.",
+        failure: "High-status speedsters dominating; quiet or marginalized students tuning out.",
+        protocol: "Listen for a hesitant student’s overlooked question, diagram, or boundary check on the board. Praise it publicly so the group hears—meeting all four criteria: public, intellectual, specific, and relevant.",
+        script: "“Pause here—notice how Maya’s boundary check at x = 2 caught a hidden asymptote that saves your whole algebraic setup.”"
+      },
+      {
+        id: 6,
+        category: "overload",
+        title: "6. Wise Feedback Script & 'Giver’s Boost' Loops",
+        cadence: "Quizzes, Revisions & Unit Close",
+        mechanism: "Wise Feedback (Yeager et al., 2014); Novice vs. expert calibration; Giver’s boost (1,982-student study).",
+        failure: "Students shutting down after critical feedback; novice discouragement.",
+        protocol: "Preface demanding feedback with explicit high standards plus assurance. Coach peer reviewers to validate a working step for novices before offering hints, and have students write end-of-unit advice for incoming classes.",
+        script: "“I’m giving you this detailed critique because I have high expectations for your mathematical reasoning and I know you can reach them.”"
+      },
+      {
+        id: 7,
+        category: "conflict",
+        title: "7. Two-Color Critique & 'No-Eraser Strike-Through'",
+        cadence: "When Methods Clash",
+        mechanism: "Reframing disharmony (Vibe / Metallica / Inklings); structured conflict dialogue (Seeds of Peace).",
+        failure: "Tiptoeing around mathematical errors or erasing dead ends in embarrassment.",
+        protocol: "Ban erasers and majority voting. Strike through dead ends with a 3-word label, put competing methods side by side, and use a second marker color to audit every step.",
+        script: "“No erasing and no voting—put both methods side by side and use your second marker color to test where each approach holds.”"
+      },
+      {
+        id: 8,
+        category: "conflict",
+        title: "8. Classroom 'Houses' & Micro-Pebbling Closures",
+        cadence: "Unit Squads + Daily 2-Min Close",
+        mechanism: "School house systems (Vibe); Cues of working together (Carr & Walton); Empathy-mediated shared struggle (Qi et al.).",
+        failure: "Alienation in large classes; unshared struggle draining motivation.",
+        protocol: "Maintain persistent unit-long 'home base' squads alongside daily random board partners. Close hard vertical-board days with a 2-minute pebbling check so struggle is actively shared with empathy.",
+        script: "“Before you erase your board, turn to your partners and name one specific question or move they made today that unstuck your thinking.”"
+      }
+    ];
+
+    const painStates = {
+      isolated: {
+        status: "Social Threat & Cognitive Drain",
+        statusColor: "#C86D51",
+        title: "Hard Math Experienced in Competitive Isolation",
+        desc: "When students tackle grueling STEM tasks alone without belonging cues, social-threat vigilance consumes working memory (Yeager & Walton), leaving fewer cognitive resources for mathematical reflection and persistence.",
+        metric: "Reduced Persistence",
+        metricColor: "#C86D51",
+        sub: "Working memory consumed by threat"
+      },
+      unmediated: {
+        status: "Unreliable Effect (2022 Replication & Qi et al., 2020)",
+        statusColor: "#C86D51",
+        title: "Unmediated Shared Hardship Without Empathy",
+        desc: "While Bastian et al. (2014) initially linked shared physical pain to cooperation, a 2022 preregistered direct replication found no reliable effect, and Qi et al. (2020) showed unshared hardship produces zero cooperative gain.",
+        metric: "No Reliable Gain",
+        metricColor: "#C86D51",
+        sub: "Frustration risks blame or loafing"
+      },
+      empathy: {
+        status: "High Solidarity & Cooperation (Qi et al., 2020)",
+        statusColor: "#2A6F68",
+        title: "Explicitly Shared Experience Mediated by Empathy",
+        desc: "In Qi et al.’s (2020) 2×2 experiment, difficult experiences fostered bonding and cooperation only when participants actively shared the experience with empathy (indirect effect = 1.17). Closing rituals like micro-pebbling convert math struggle into solidarity.",
+        metric: "Strong Ally Bonding",
+        metricColor: "#2A6F68",
+        sub: "Protects working memory from threat"
+      }
+    };
+
+    const slidesDeck = [
+      {
+        category: "Title Slide",
+        title: "Building Mathematical Solidarity",
+        subtitle: "Pre-Work Vibe Launchers & Vertical Board Routines",
+        type: "cover",
+        bullets: [
+          "How to turn random groups into aligned problem-solving allies in the first 120 seconds",
+          "6 repeatable vertical whiteboard routines that keep every student actively thinking",
+          "Grounded in Adam Grant’s Vibe, Boaler’s Complex Instruction, and Liljedahl’s Thinking Classrooms"
+        ],
+        note: "Welcome faculty or students! Press 'F' anytime for full-room Projector Mode, or use the Left/Right arrow keys to step through the routines."
+      },
+      {
+        category: "Core Principle",
+        title: "Why 'Vibe' Matters at Vertical Boards",
+        subtitle: "Side-by-Side Attention Dissolves 0.1-Second Guardedness",
+        type: "concept",
+        cards: [
+          { label: "Associates (Avoid)", text: "Transactional worksheet checking ('What did you get for #4?'). High social threat, low deep thinking." },
+          { label: "Allies (Target)", text: "Standing shoulder-to-shoulder at a vertical board focused on a shared mathematical object." },
+          { label: "Companions (Deep Trust)", text: "Bounded vulnerability—sharing past math struggles that clicked, plus micro-pebbling closures." }
+        ],
+        note: "Key research insight from Vibe: You do not need to force every student to become recreational friends ('pals'). Aligning them side-by-side as Allies around a vertical board creates instant psychological safety."
+      },
+      {
+        category: "Empirical Evidence",
+        title: "The Science Behind Collaborative Math",
+        subtitle: "Small Relational Cues Unlock Massive Persistence & Equity",
+        type: "stats",
+        stats: [
+          { num: "+48%", label: "Longer Persistence", desc: "Simply from cues of 'working together' on hard tasks (Carr & Walton, 2014)." },
+          { num: "17% → 71%", label: "Revision Rate", desc: "When tough critique is paired with Wise Feedback assurance (Yeager et al., 2014)." },
+          { num: "41% vs 27%", label: "Calculus Enrollment", desc: "In classrooms using Complex Instruction & relational equity (Boaler, 2006)." }
+        ],
+        note: "Reminder from Qi et al. (2020): Hard math alone does NOT bond students—it must be explicitly shared with empathy (e.g., 2-minute closing acknowledgments)."
+      },
+      {
+        category: "Part 1 • Pre-Work Opener 1",
+        title: "Opener 1: The 60-Second 'Board Corner' Commonality",
+        subtitle: "Dissolve Awkwardness Before Revealing the Math",
+        type: "opener",
+        duration: 90,
+        prompt: "“Before I reveal today’s problem, take 90 seconds to find two non-math things all three of you have in common and write them in the top-right corner of your board.”",
+        steps: [
+          "Triads stand at their board with only ONE marker uncapped.",
+          "Find 2 non-math commonalities (a food you hate, a show, birth season, hobby).",
+          "Write them in the top-right corner as your 'Board Crest,' then pass the pen to start the math."
+        ],
+        note: "Discovering unexpected shared ground dissolves 0.1-second guardedness and gives the triad a shared team artifact before math anxiety starts."
+      },
+      {
+        category: "Part 1 • Pre-Work Opener 2",
+        title: "Opener 2: Resolved Math Struggle Check-In",
+        subtitle: "Bounded Vulnerability That Activates Sonder",
+        type: "opener",
+        duration: 120,
+        prompt: "“Take 45 seconds each: tell your board partners one math topic from a past class that confused you at first—and what helped it finally click.”",
+        steps: [
+          "Use before launching notoriously tough units (proofs, factoring, related rates).",
+          "Share a struggle you ALREADY overcame—never raw current distress.",
+          "Finish with a quick fist-bump or board tap before reading Problem 1."
+        ],
+        note: "Vibe calls this 'bounded vulnerability': sharing resolved struggles builds immediate Companion trust across different skill levels."
+      },
+      {
+        category: "Part 1 • Pre-Work Opener 3",
+        title: "Opener 3: Low-Floor 'Gut Guess' Lineup",
+        subtitle: "Get Every Hand on the Board Before Equations Appear",
+        type: "opener",
+        duration: 90,
+        prompt: "“No calculators, no formulas yet—everyone grab the pen for 5 seconds and write your gut estimate on the board, then box one Team Estimate.”",
+        steps: [
+          "Project a visual scenario (filling tank, geometric growth, data pattern).",
+          "In 30 seconds, each teammate writes their personal 'Gut Guess' on the wall.",
+          "Spend 60 seconds agreeing on a single boxed Team Estimate before formal solving."
+        ],
+        note: "Low-stakes intuition removes fear of being wrong and ensures all three students physically touch the marker in the first minute."
+      },
+      {
+        category: "Part 1 • Pre-Work Opener 4",
+        title: "Opener 4: Spot the Algebraic Trap",
+        subtitle: "Unite the Triad Against a Common Mathematical Flaw",
+        type: "opener",
+        duration: 120,
+        prompt: "“One of these three lines contains a classic algebra trap. You have 2 minutes at your boards to find the lie and write a 5-word warning label.”",
+        steps: [
+          "Display 3 short worked lines (2 valid, 1 classic trap like dividing by zero).",
+          "Groups recreate the flawed line on their wall and draw a big red X.",
+          "Write a crisp 5-word warning label explaining why the step breaks."
+        ],
+        note: "Hunting a shared external flaw shoulder-to-shoulder instantly puts students into an Ally posture."
+      },
+      {
+        category: "Part 1 • Pre-Work Opener 5",
+        title: "Opener 5: 60-Second 'Claim the Space' Relay",
+        subtitle: "Equal Physical Touchpoints Predict Equal Speaking Time",
+        type: "opener",
+        duration: 60,
+        prompt: "“Before any equations go up, run a 60-second relay: Person 1 draws the sketch, Person 2 labels the numbers, Person 3 writes what we are solving for.”",
+        steps: [
+          "Person 1 draws the coordinate axes or geometric diagram.",
+          "Person 2 labels all known quantities and units directly on the sketch.",
+          "Person 3 writes the target goal in plain English before passing the pen."
+        ],
+        note: "Interaction ritual research shows that when every member contributes early, dominant students are far less likely to monopolize later."
+      },
+      {
+        category: "Part 1 • Pre-Work Opener 6",
+        title: "Opener 6: The 90-Second Error Premortem",
+        subtitle: "Turn Mistakes Into a Shared Team Hazard",
+        type: "opener",
+        duration: 90,
+        prompt: "“Read the problem, don’t solve it yet. Write one 'Watch Out!' warning in the bottom corner of your board for the mistake most likely to trip up your group.”",
+        steps: [
+          "Groups read the prompt together without starting calculations.",
+          "In the bottom corner under 'Watch Out!', list 1 classic hazard (e.g., negative signs, domain).",
+          "During work time, any teammate can point to 'Watch Out!' without sounding critical."
+        ],
+        note: "Reframes error-checking from personal criticism into protecting the team."
+      },
+      {
+        category: "Part 2 • Board Routine 1",
+        title: "Routine 1: Scribe & Navigators (Voice-to-Hand Rule)",
+        subtitle: "Stop Fast Solvers From Hogging the Marker",
+        type: "routine",
+        cadence: "Rotate every 4 mins",
+        prompt: "“If your hand is holding the marker, your mouth is in listening mode—you can only write what your navigators tell you to write.”",
+        steps: [
+          "One Marker Rule: Only ONE marker is uncapped per board.",
+          "Scribe (1): Writes teammates' spoken ideas and asks 'Why does that step work?'",
+          "Navigators (2): Propose next steps, test numbers, and check constraints. Rotate on a 4-minute chime!"
+        ],
+        note: "Enforces Collaborative Cognitive Load: thinking must be externalized verbally before being written down."
+      },
+      {
+        category: "Part 2 • Board Routine 2",
+        title: "Routine 2: The 90-Second Silent Sketch",
+        subtitle: "Protect Thinking Space Before Debate Begins",
+        type: "routine",
+        cadence: "First 90 secs of task",
+        prompt: "“For the first 90 seconds, voices are off. Step up to the board, underline a clue, draw a diagram, or test a small number—then we talk.”",
+        steps: [
+          "Zero talking for 90 seconds after reading the prompt.",
+          "Each student steps up to annotate a constraint, sketch, or numerical test case.",
+          "When the chime sounds, discussion must begin by pointing to something on the board."
+        ],
+        note: "Gives reflective and cautious thinkers equal footing before extroverts dictate a path."
+      },
+      {
+        category: "Part 2 • Board Routine 3",
+        title: "Routine 3: No-Eraser Strike-Through Rule",
+        subtitle: "Preserve Dead Ends as Visible Learning Data",
+        type: "routine",
+        cadence: "Continuous norm",
+        prompt: "“Put the erasers down—if a strategy hits a wall, draw one neat line through it and write a 3-word label for why it stalled.”",
+        steps: [
+          "Keep erasers on the teacher's desk during active problem solving.",
+          "Strike through stalled attempts with a 3-word label (e.g., 'led to 0 = 0').",
+          "Start Attempt 2 beside it so the group can harvest valid intermediate steps."
+        ],
+        note: "Prevents groups from wiping away their work in embarrassment and repeating the exact same algebraic dead end."
+      },
+      {
+        category: "Part 2 • Board Routine 4",
+        title: "Routine 4: 30-Second Board Scout",
+        subtitle: "Cross-Board Idea Flow Without Answer Copying",
+        type: "routine",
+        cadence: "When a group stalls",
+        prompt: "“Your board is paused—send one Scout to visit another wall for 30 seconds. Bring back a strategy or a question, never a final answer.”",
+        steps: [
+          "When stuck for 2+ minutes, dispatch 1 Scout to inspect another board.",
+          "No photos and no copying equations—ask one structural question only.",
+          "Scout returns and explains the approach to their own triad."
+        ],
+        note: "Builds classroom-wide solidarity (Liljedahl's knowledge mobility) while keeping ownership inside each group."
+      },
+      {
+        category: "Part 2 • Board Routine 5",
+        title: "Routine 5: Two-Color Critique Pass",
+        subtitle: "Switch From 'Solving Mode' to 'Skeptic Mode'",
+        type: "routine",
+        cadence: "Before boxing answer",
+        prompt: "“Before calling me over, switch to your second marker color and annotate why each line is legal—try to break your own solution.”",
+        steps: [
+          "Complete core algebra in Color 1 (Black/Blue).",
+          "Switch to Color 2 (Red/Green) for 2 minutes to tag justifications (e.g., 'x ≠ 0').",
+          "Test one boundary or edge case in Color 2 to verify the boxed answer."
+        ],
+        note: "Channels Vibe's 'virtue within vice'—rigorous skepticism is framed as protecting the team."
+      },
+      {
+        category: "Part 2 • Board Routine 6",
+        title: "Routine 6: 30-Second Huddle & Random Defender",
+        subtitle: "Shared Accountability & Micro-Pebbling Closure",
+        type: "routine",
+        cadence: "Check-out & Close",
+        prompt: "“I’m going to pick one person at random to explain Step 3. Take 30 seconds to coach each other so anyone at your board can defend it.”",
+        steps: [
+          "30-Second Huddle: Teammates quiz each other on every line before raising hands.",
+          "If the randomly chosen student hesitates, smile and walk away for 60 seconds so the group can coach them.",
+          "Close class with 1-minute Micro-Pebbling: 'Name one move a partner made that unstuck you today.'"
+        ],
+        note: "Activates the Giver's Boost for fast solvers and closes the loop on empathy-mediated shared struggle."
+      }
+    ];
+
+    let currentOpenerIndex = 0;
+    let timerSeconds = 90;
+    let timerInterval = null;
+    let timerRunning = false;
+
+    function formatTime(sec) {
+      const m = Math.floor(sec / 60);
+      const s = sec % 60;
+      return String(m).padStart(2, "0") + ":" + String(s).padStart(2, "0");
+    }
+
+    function updateTimerDisplay() {
+      const el = document.getElementById("timer-display");
+      if (el) {
+        el.textContent = formatTime(timerSeconds);
+        el.className = "font-mono text-base font-extrabold " + (timerSeconds === 0 ? "text-[#C86D51]" : "text-[#2A6F68]");
+      }
+      const slideTimerEl = document.getElementById("slide-timer-display");
+      if (slideTimerEl) {
+        slideTimerEl.textContent = formatTime(timerSeconds);
+        slideTimerEl.className = "font-mono text-2xl sm:text-3xl font-extrabold " + (timerSeconds === 0 ? "text-[#C86D51]" : "text-[#2A6F68]");
+      }
+    }
+
+    function stopTimer() {
+      if (timerInterval) {
+        clearInterval(timerInterval);
+        timerInterval = null;
+      }
+      timerRunning = false;
+      const t1 = document.getElementById("timer-toggle");
+      if (t1) t1.textContent = "Start";
+      const t2 = document.getElementById("slide-timer-toggle");
+      if (t2) t2.textContent = "Start Timer";
+    }
+
+    function toggleTimer(defaultDuration) {
+      if (timerRunning) {
+        stopTimer();
+      } else {
+        if (timerSeconds === 0) {
+          timerSeconds = defaultDuration;
+        }
+        timerRunning = true;
+        const t1 = document.getElementById("timer-toggle");
+        if (t1) t1.textContent = "Pause";
+        const t2 = document.getElementById("slide-timer-toggle");
+        if (t2) t2.textContent = "Pause";
+        timerInterval = setInterval(() => {
+          if (timerSeconds > 0) {
+            timerSeconds--;
+            updateTimerDisplay();
+          } else {
+            stopTimer();
+          }
+        }, 1000);
+      }
+    }
+
+    document.getElementById("timer-toggle").addEventListener("click", () => {
+      toggleTimer(openersData[currentOpenerIndex].duration);
+    });
+
+    document.getElementById("timer-reset").addEventListener("click", () => {
+      stopTimer();
+      timerSeconds = openersData[currentOpenerIndex].duration;
+      updateTimerDisplay();
+    });
+
+    const openerListEl = document.getElementById("opener-list");
+    function renderOpenerButtons() {
+      openerListEl.innerHTML = "";
+      openersData.forEach((op, idx) => {
+        const btn = document.createElement("button");
+        btn.type = "button";
+        const active = idx === currentOpenerIndex;
+        btn.className = "text-left px-3.5 py-2.5 rounded-xl border text-xs sm:text-sm font-semibold transition flex items-center justify-between " + (active ? "tab-active" : "tab-inactive");
+        btn.innerHTML = `
+          <span>${op.shortTitle}</span>
+          <span class="text-[11px] px-2 py-0.5 rounded ${active ? "bg-white/20 text-white" : "bg-[#F3EFEA] text-[#6B7280]"}">${op.duration}s</span>
+        `;
+        btn.addEventListener("click", () => selectOpener(idx));
+        openerListEl.appendChild(btn);
+      });
+    }
+
+    function selectOpener(idx) {
+      currentOpenerIndex = idx;
+      const op = openersData[idx];
+      stopTimer();
+      timerSeconds = op.duration;
+      updateTimerDisplay();
+      renderOpenerButtons();
+
+      document.getElementById("op-tag").textContent = op.tag;
+      document.getElementById("op-title").textContent = op.title;
+      document.getElementById("op-why").textContent = op.why;
+      document.getElementById("op-steps").innerHTML = op.steps.map(s => `<li>${s}</li>`).join("");
+      document.getElementById("op-script").textContent = op.script;
+    }
+
+    document.getElementById("btn-random-opener").addEventListener("click", () => {
+      let next = Math.floor(Math.random() * openersData.length);
+      if (next === currentOpenerIndex) {
+        next = (next + 1) % openersData.length;
+      }
+      selectOpener(next);
+    });
+
+    renderOpenerButtons();
+
+    const routineButtons = document.querySelectorAll(".routine-btn");
+    routineButtons.forEach(btn => {
+      btn.addEventListener("click", () => {
+        const key = btn.dataset.routine;
+        const r = routinesData[key];
+        routineButtons.forEach(b => {
+          b.classList.remove("tab-active");
+          b.classList.add("tab-inactive");
+        });
+        btn.classList.remove("tab-inactive");
+        btn.classList.add("tab-active");
+
+        document.getElementById("rt-title").textContent = r.title;
+        document.getElementById("rt-cadence").textContent = r.cadence;
+        document.getElementById("rt-problem").innerHTML = `<strong class="text-[#C86D51]">Solves:</strong> ${r.problem}`;
+        document.getElementById("rt-steps").innerHTML = r.steps.map(s => `<li>${s}</li>`).join("");
+        document.getElementById("rt-script").textContent = r.script;
+        document.getElementById("rt-board-header").textContent = r.boardHeader;
+        document.getElementById("rt-board-visual").innerHTML = r.boardHtml;
+        document.getElementById("rt-takeaway").innerHTML = `<strong>Why it works:</strong> ${r.takeaway}`;
+      });
+    });
+
+    function wrapLabel(str) {
+      if (str.length <= 16) return str;
+      const words = str.split(" ");
+      const lines = [];
+      let current = "";
+      for (const word of words) {
+        if ((current + " " + word).trim().length <= 16) {
+          current = (current + " " + word).trim();
+        } else {
+          if (current) lines.push(current);
+          current = word;
+        }
+      }
+      if (current) lines.push(current);
+      return lines;
+    }
+
+    const wavelengthButtons = document.querySelectorAll(".wavelength-btn");
+    wavelengthButtons.forEach(btn => {
+      btn.addEventListener("click", () => {
+        const mode = btn.dataset.mode;
+        const data = wavelengthData[mode];
+        wavelengthButtons.forEach(b => {
+          b.classList.remove("tab-active");
+          b.classList.add("tab-inactive");
+          const badge = b.querySelector("span:last-child");
+          if (badge) {
+            badge.classList.remove("bg-white/20", "text-white");
+            badge.classList.add("bg-[#F3EFEA]", "text-[#4B5563]");
+          }
+        });
+        btn.classList.remove("tab-inactive");
+        btn.classList.add("tab-active");
+        const activeBadge = btn.querySelector("span:last-child");
+        if (activeBadge) {
+          activeBadge.classList.remove("bg-[#F3EFEA]", "text-[#4B5563]");
+          activeBadge.classList.add("bg-white/20", "text-white");
+        }
+
+        document.getElementById("wd-badge").textContent = data.badge;
+        document.getElementById("wd-title").textContent = data.title;
+        document.getElementById("wd-posture").textContent = data.posture;
+        document.getElementById("wd-mechanism").textContent = data.mechanism;
+        document.getElementById("wd-math").textContent = data.math;
+        document.getElementById("wd-catalyst").textContent = data.catalyst;
+      });
+    });
+
+    const ctxBench = document.getElementById("benchmarksChart").getContext("2d");
+    const benchmarksChart = new Chart(ctxBench, {
+      type: "bar",
+      data: {
+        labels: [
+          wrapLabel("Wise Feedback Essay Revision (Yeager et al.)"),
+          wrapLabel("4-Yr Calculus Enrollment (Boaler Railside)")
+        ],
+        datasets: [
+          {
+            label: "Control / Traditional Tracking (%)",
+            data: [17, 27],
+            backgroundColor: "#D1C7B7",
+            borderRadius: 6
+          },
+          {
+            label: "Relational / Assurance Intervention (%)",
+            data: [71, 41],
+            backgroundColor: "#2A6F68",
+            borderRadius: 6
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            position: "bottom",
+            labels: { boxWidth: 12, font: { size: 11 } }
+          },
+          tooltip: {
+            callbacks: {
+              label: function(ctx) {
+                return ctx.dataset.label + ": " + ctx.parsed.y + "%";
+              }
+            }
+          }
+        },
+        scales: {
+          y: {
+            beginAtZero: true,
+            max: 100,
+            title: { display: true, text: "Percentage of Students (%)", font: { size: 11 } }
+          }
+        }
+      }
+    });
+
+    const btnMetricPct = document.getElementById("btn-metric-pct");
+    const btnMetricTime = document.getElementById("btn-metric-time");
+    const benchmarkCaption = document.getElementById("benchmark-caption");
+
+    btnMetricPct.addEventListener("click", () => {
+      btnMetricPct.classList.add("bg-[#2A6F68]", "text-white");
+      btnMetricPct.classList.remove("text-[#374151]");
+      btnMetricTime.classList.remove("bg-[#2A6F68]", "text-white");
+      btnMetricTime.classList.add("text-[#374151]");
+
+      benchmarkCaption.textContent = "Comparing control vs. intervention conditions in Yeager et al.’s (2014) Wise Feedback essay revision experiment and Boaler’s (2006) 4-year Railside High School Calculus enrollment study.";
+      benchmarksChart.data.labels = [
+        wrapLabel("Wise Feedback Essay Revision (Yeager et al.)"),
+        wrapLabel("4-Yr Calculus Enrollment (Boaler Railside)")
+      ];
+      benchmarksChart.data.datasets[0].label = "Control / Traditional Tracking (%)";
+      benchmarksChart.data.datasets[0].data = [17, 27];
+      benchmarksChart.data.datasets[1].label = "Relational / Assurance Intervention (%)";
+      benchmarksChart.data.datasets[1].data = [71, 41];
+      benchmarksChart.options.scales.y.max = 100;
+      benchmarksChart.options.scales.y.title.text = "Percentage of Students (%)";
+      benchmarksChart.options.plugins.tooltip.callbacks.label = function(ctx) {
+        return ctx.dataset.label + ": " + ctx.parsed.y + "%";
+      };
+      benchmarksChart.update();
+    });
+
+    btnMetricTime.addEventListener("click", () => {
+      btnMetricTime.classList.add("bg-[#2A6F68]", "text-white");
+      btnMetricTime.classList.remove("text-[#374151]");
+      btnMetricPct.classList.remove("bg-[#2A6F68]", "text-white");
+      btnMetricPct.classList.add("text-[#374151]");
+
+      benchmarkCaption.textContent = "In Carr & Walton (2014, Exp. 1), participants working alone persisted 48% longer (17.0 vs. 11.5 minutes) on an unsolvable puzzle simply when led to believe they were working together with a partner.";
+      benchmarksChart.data.labels = [
+        wrapLabel("Unsolvable Puzzle Persistence (Carr & Walton, 2014)")
+      ];
+      benchmarksChart.data.datasets[0].label = "Solo Framing Condition (Minutes)";
+      benchmarksChart.data.datasets[0].data = [11.5];
+      benchmarksChart.data.datasets[1].label = "Working Together Cue (Minutes)";
+      benchmarksChart.data.datasets[1].data = [17.0];
+      benchmarksChart.options.scales.y.max = 22;
+      benchmarksChart.options.scales.y.title.text = "Persistence Time (Minutes)";
+      benchmarksChart.options.plugins.tooltip.callbacks.label = function(ctx) {
+        return ctx.dataset.label + ": " + ctx.parsed.y + " mins";
+      };
+      benchmarksChart.update();
+    });
+
+    const ctxCclt = document.getElementById("ccltChart").getContext("2d");
+    const complexityLevels = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+    const soloEfficiency = [92, 88, 82, 74, 64, 53, 42, 32, 24, 18];
+    const groupEfficiency = [48, 54, 61, 68, 75, 81, 85, 87, 86, 84];
+
+    const ccltChart = new Chart(ctxCclt, {
+      type: "line",
+      data: {
+        labels: complexityLevels.map(l => "Level " + l),
+        datasets: [
+          {
+            label: "Solo Learning Efficiency",
+            data: soloEfficiency,
+            borderColor: "#C86D51",
+            backgroundColor: "rgba(200, 109, 81, 0.12)",
+            tension: 0.35,
+            fill: false,
+            pointRadius: complexityLevels.map(l => l === 7 ? 7 : 3),
+            pointBackgroundColor: "#C86D51"
+          },
+          {
+            label: "Scaffolded Group Efficiency",
+            data: groupEfficiency,
+            borderColor: "#2A6F68",
+            backgroundColor: "rgba(42, 111, 104, 0.14)",
+            tension: 0.35,
+            fill: true,
+            pointRadius: complexityLevels.map(l => l === 7 ? 7 : 3),
+            pointBackgroundColor: "#2A6F68"
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            position: "bottom",
+            labels: { boxWidth: 12, font: { size: 11 } }
+          },
+          tooltip: {
+            callbacks: {
+              label: function(ctx) {
+                return ctx.dataset.label + ": " + ctx.parsed.y + " idx";
+              }
+            }
+          }
+        },
+        scales: {
+          y: {
+            beginAtZero: true,
+            max: 100,
+            title: { display: true, text: "Net Learning Efficiency Index", font: { size: 11 } }
+          }
+        }
+      }
+    });
+
+    const complexitySlider = document.getElementById("complexity-slider");
+    const complexityBadge = document.getElementById("complexity-badge");
+    const ccltAdvice = document.getElementById("cclt-advice");
+
+    complexitySlider.addEventListener("input", (e) => {
+      const val = parseInt(e.target.value, 10);
+      ccltChart.data.datasets[0].pointRadius = complexityLevels.map(l => l === val ? 8 : 3);
+      ccltChart.data.datasets[1].pointRadius = complexityLevels.map(l => l === val ? 8 : 3);
+      ccltChart.update();
+
+      if (val <= 4) {
+        complexityBadge.textContent = "Complexity: " + val + " / 10 (Keep Individual)";
+        complexityBadge.className = "px-2.5 py-1 rounded-full text-xs font-bold bg-[#C86D51] text-white";
+        ccltAdvice.innerHTML = "<strong>Verdict (Level " + val + "):</strong> Low element interactivity. One student’s working memory easily handles the task; sending to vertical boards adds pure transaction costs.";
+      } else if (val === 5) {
+        complexityBadge.textContent = "Complexity: 5 / 10 (Crossover Zone)";
+        complexityBadge.className = "px-2.5 py-1 rounded-full text-xs font-bold bg-[#6B7280] text-white";
+        ccltAdvice.innerHTML = "<strong>Verdict (Level 5):</strong> Threshold zone. Use brief pair-checks or a 90-second estimation board check, then consolidate.";
+      } else {
+        complexityBadge.textContent = "Complexity: " + val + " / 10 (Group-Worthy)";
+        complexityBadge.className = "px-2.5 py-1 rounded-full text-xs font-bold bg-[#2A6F68] text-white";
+        ccltAdvice.innerHTML = "<strong>Verdict (Level " + val + "):</strong> High element interactivity exceeds individual working memory. Collaborative distribution at the boards outweighs coordination costs—pair with rotating Scribe roles.";
+      }
+    });
+
+    const painButtons = document.querySelectorAll(".pain-btn");
+    painButtons.forEach(btn => {
+      btn.addEventListener("click", () => {
+        const key = btn.dataset.pain;
+        const state = painStates[key];
+        painButtons.forEach(b => {
+          b.classList.remove("tab-active");
+          b.classList.add("tab-inactive");
+        });
+        btn.classList.remove("tab-inactive");
+        btn.classList.add("tab-active");
+
+        const statusEl = document.getElementById("pain-status");
+        statusEl.textContent = state.status;
+        statusEl.style.color = state.statusColor;
+        document.getElementById("pain-title").textContent = state.title;
+        document.getElementById("pain-desc").textContent = state.desc;
+        const metricEl = document.getElementById("pain-metric");
+        metricEl.textContent = state.metric;
+        metricEl.style.color = state.metricColor;
+        document.getElementById("pain-sub").textContent = state.sub;
+      });
+    });
+
+    const strategyGrid = document.getElementById("strategy-grid");
+    function renderStrategies(filter) {
+      strategyGrid.innerHTML = "";
+      const filtered = filter === "all" ? strategiesData : strategiesData.filter(s => s.category === filter);
+      filtered.forEach(item => {
+        const card = document.createElement("article");
+        card.className = "card-surface rounded-2xl p-5 space-y-3 shadow-sm flex flex-col justify-between";
+        card.innerHTML = `
+          <div class="space-y-2.5">
+            <div class="flex items-start justify-between gap-2">
+              <h3 class="text-base font-bold text-[#1F2937] leading-snug">${item.title}</h3>
+              <span class="shrink-0 text-[11px] font-semibold px-2.5 py-1 rounded-full bg-[#F3EFEA] text-[#2A6F68]">${item.cadence}</span>
+            </div>
+            <div class="text-xs text-[#4B5563] space-y-1">
+              <p><strong class="text-[#1F2937]">Mechanism:</strong> ${item.mechanism}</p>
+              <p><strong class="text-[#C86D51]">Fixes:</strong> ${item.failure}</p>
+            </div>
+            <div class="pt-2 border-t border-[#E5E0D8] text-xs sm:text-sm text-[#374151] leading-relaxed">
+              ${item.protocol}
+            </div>
+          </div>
+          <div class="bg-[#FAF8F5] border border-[#E5E0D8] rounded-xl p-3 text-xs text-[#1F2937] italic">
+            <span class="not-italic font-bold text-[#2A6F68] block mb-0.5">Classroom Script:</span>
+            ${item.script}
+          </div>
+        `;
+        strategyGrid.appendChild(card);
+      });
+    }
+    renderStrategies("all");
+
+    const filterButtons = document.querySelectorAll(".filter-btn");
+    filterButtons.forEach(btn => {
+      btn.addEventListener("click", () => {
+        filterButtons.forEach(b => {
+          b.classList.remove("tab-active");
+          b.classList.add("tab-inactive");
+        });
+        btn.classList.remove("tab-inactive");
+        btn.classList.add("tab-active");
+        renderStrategies(btn.dataset.filter);
+      });
+    });
+
+    function buildTailoredPlan() {
+      const space = document.getElementById("t-space").value;
+      const pain = document.getElementById("t-pain").value;
+      const autonomy = document.getElementById("t-autonomy").value;
+      const medium = document.getElementById("t-medium").value;
+
+      const recs = [];
+
+      if (space === "vnps") {
+        recs.push({
+          step: "Step 1 — Pre-Work Vibe Opener (0:00 – 1:30)",
+          name: "Board Corner Commonality + 90-Second Silent Sketch",
+          detail: "Once random triads reach their wall boards, run a 60-second Board Corner Commonality crest, followed by 90 seconds of silent diagramming before anyone speaks."
+        });
+      } else {
+        recs.push({
+          step: "Step 1 — Desk-Based Ally Opener (0:00 – 1:30)",
+          name: "Tabletop Shared Board + Low-Floor Gut Guess",
+          detail: "Seat triads side-by-side sharing one tabletop whiteboard. Have all three write a gut estimate in 30 seconds before formal algebra begins."
+        });
+      }
+
+      if (pain === "dominance") {
+        recs.push({
+          step: "Step 2 — At-the-Board Choreography",
+          name: "Scribe-Navigator Voice Rule + Random Defender",
+          detail: "Only one marker is uncapped; the Scribe can only write ideas spoken by the two Navigators (rotate every 4 minutes). Before checking work, quiz one random student."
+        });
+      } else if (pain === "cliques") {
+        recs.push({
+          step: "Step 2 — Ritual & Bounded Vulnerability",
+          name: "2-Minute Resolved Math Origin Check-In + Pen Relay",
+          detail: "Open new units with a 2-minute resolved-struggle story, followed by a 60-second Claim-the-Space Relay where every teammate writes part of the setup."
+        });
+      } else if (pain === "quitting") {
+        recs.push({
+          step: "Step 2 — Productive Struggle & Stall Rescue",
+          name: "No-Eraser Strike-Through + 30-Second Board Scout",
+          detail: "Ban erasers so dead ends stay labeled as data, and dispatch one Scout to another board for 30 seconds whenever a triad stalls."
+        });
+      } else {
+        recs.push({
+          step: "Step 2 — Productive Friction Norms",
+          name: "Two-Color Proof & Critique Pass + No-Voting Rule",
+          detail: "Ban majority voting on solutions. Have groups switch to a second marker color for 2 minutes to annotate why every step is legal and test edge cases."
+        });
+      }
+
+      let step3Detail = "Close difficult vertical-board days with a 2-minute micro-pebbling prompt ('Who helped you today, and how?') before wiping the boards.";
+      if (medium === "digital") {
+        step3Detail += " When transitioning to Desmos or tablets, assign explicit screen-navigator vs. verifier roles to keep transaction costs low.";
+      } else if (autonomy === "high") {
+        step3Detail += " With flexible pacing, reinforce board habits with periodic Group Tests where you grade one randomly chosen paper per triad.";
+      }
+
+      recs.push({
+        step: "Step 3 — Closing Ritual & Reinforcement",
+        name: "Empathy-Mediated Micro-Pebbling Closure",
+        detail: step3Detail
+      });
+
+      const resultsEl = document.getElementById("tailor-results");
+      resultsEl.innerHTML = `
+        <div class="flex items-center justify-between border-b border-[#E5E0D8] pb-3">
+          <h3 class="text-base sm:text-lg font-bold text-[#1F2937]">Your Prioritized 3-Step Board Rollout</h3>
+          <span class="text-xs font-semibold px-2.5 py-1 rounded-full bg-[#2A6F68] text-white">Custom Fit</span>
+        </div>
+        <div class="space-y-3">
+          ${recs.map(r => `
+            <div class="bg-white border border-[#E5E0D8] rounded-xl p-4 space-y-1">
+              <div class="text-xs font-bold uppercase tracking-wider text-[#C86D51]">${r.step}</div>
+              <div class="text-sm font-bold text-[#1F2937]">${r.name}</div>
+              <p class="text-xs sm:text-sm text-[#4B5563] leading-relaxed">${r.detail}</p>
+            </div>
+          `).join("")}
+        </div>
+      `;
+    }
+
+    document.getElementById("tailor-form").addEventListener("submit", (e) => {
+      e.preventDefault();
+      buildTailoredPlan();
+    });
+
+    buildTailoredPlan();
+
+    let currentSlide = 0;
+    let notesVisible = true;
+    const hubView = document.getElementById("hub-view");
+    const slidesView = document.getElementById("slides-view");
+
+    function renderSlide(idx) {
+      currentSlide = Math.max(0, Math.min(slidesDeck.length - 1, idx));
+      const s = slidesDeck[currentSlide];
+      stopTimer();
+
+      document.getElementById("slide-counter-badge").textContent = `Slide ${currentSlide + 1} / ${slidesDeck.length}`;
+      document.getElementById("slide-note-text").textContent = s.note;
+
+      const stage = document.getElementById("slide-stage");
+      let bodyHtml = "";
+
+      if (s.type === "cover") {
+        bodyHtml = `
+          <div class="my-auto space-y-6">
+            <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#2A6F68]/10 text-[#2A6F68] text-xs sm:text-sm font-bold uppercase tracking-wider">
+              <span>PD Workshop &amp; Classroom Deck</span>
+            </div>
+            <h2 class="text-3xl sm:text-5xl font-extrabold text-[#1F2937] tracking-tight leading-tight">${s.title}</h2>
+            <p class="text-lg sm:text-2xl font-medium text-[#C86D51]">${s.subtitle}</p>
+            <ul class="space-y-3 pt-4 border-t border-[#E5E0D8] max-w-3xl">
+              ${s.bullets.map(b => `<li class="flex items-start gap-3 text-base sm:text-lg text-[#374151]"><span class="text-[#2A6F68] font-bold">✓</span><span>${b}</span></li>`).join("")}
+            </ul>
+          </div>
+        `;
+      } else if (s.type === "concept") {
+        bodyHtml = `
+          <div class="space-y-6 my-auto">
+            <div>
+              <span class="text-xs font-bold uppercase tracking-wider text-[#C86D51]">${s.category}</span>
+              <h2 class="text-2xl sm:text-4xl font-extrabold text-[#1F2937] mt-1">${s.title}</h2>
+              <p class="text-base sm:text-lg text-[#4B5563] mt-1">${s.subtitle}</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-5 pt-2">
+              ${s.cards.map((c, i) => `
+                <div class="rounded-2xl p-6 border ${i === 1 ? "bg-[#2A6F68] text-white border-[#2A6F68]" : "warm-panel text-[#1F2937]"} space-y-2">
+                  <div class="text-xs font-bold uppercase tracking-wider ${i === 1 ? "text-white/80" : "text-[#C86D51]"}">${c.label}</div>
+                  <p class="text-sm sm:text-base leading-relaxed font-medium">${c.text}</p>
+                </div>
+              `).join("")}
+            </div>
+          </div>
+        `;
+      } else if (s.type === "stats") {
+        bodyHtml = `
+          <div class="space-y-6 my-auto">
+            <div>
+              <span class="text-xs font-bold uppercase tracking-wider text-[#C86D51]">${s.category}</span>
+              <h2 class="text-2xl sm:text-4xl font-extrabold text-[#1F2937] mt-1">${s.title}</h2>
+              <p class="text-base sm:text-lg text-[#4B5563] mt-1">${s.subtitle}</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-5 pt-2">
+              ${s.stats.map(st => `
+                <div class="warm-panel rounded-2xl p-6 space-y-2">
+                  <div class="text-3xl sm:text-4xl font-extrabold text-[#2A6F68]">${st.num}</div>
+                  <div class="text-sm font-bold uppercase tracking-wider text-[#1F2937]">${st.label}</div>
+                  <p class="text-xs sm:text-sm text-[#4B5563] leading-relaxed">${st.desc}</p>
+                </div>
+              `).join("")}
+            </div>
+          </div>
+        `;
+      } else if (s.type === "opener") {
+        timerSeconds = s.duration;
+        bodyHtml = `
+          <div class="space-y-5 my-auto">
+            <div class="flex flex-wrap items-center justify-between gap-4 border-b border-[#E5E0D8] pb-4">
+              <div>
+                <span class="text-xs font-bold uppercase tracking-wider text-[#C86D51]">${s.category}</span>
+                <h2 class="text-2xl sm:text-3xl font-extrabold text-[#1F2937] mt-1">${s.title}</h2>
+                <p class="text-sm sm:text-base text-[#4B5563]">${s.subtitle}</p>
+              </div>
+              <div class="flex items-center gap-3 warm-panel rounded-2xl px-4 py-2.5">
+                <span id="slide-timer-display" class="font-mono text-2xl sm:text-3xl font-extrabold text-[#2A6F68]">${formatTime(s.duration)}</span>
+                <div class="flex flex-col gap-1">
+                  <button type="button" id="slide-timer-toggle" class="px-3 py-1 rounded-lg bg-[#2A6F68] text-white text-xs font-bold hover:bg-[#225A54] transition">Start Timer</button>
+                  <button type="button" id="slide-timer-reset" class="px-3 py-1 rounded-lg bg-white border border-[#E5E0D8] text-[#374151] text-xs font-semibold hover:bg-[#FAF8F5] transition">Reset</button>
+                </div>
+              </div>
+            </div>
+
+            <div class="bg-[#2A6F68]/10 border-l-4 border-[#2A6F68] rounded-r-2xl p-5">
+              <div class="text-xs font-bold uppercase tracking-wider text-[#2A6F68] mb-1">Projectable Student Prompt</div>
+              <p class="text-lg sm:text-2xl font-bold text-[#1F2937] leading-snug">${s.prompt}</p>
+            </div>
+
+            <div class="space-y-2 pt-1">
+              <div class="text-xs font-bold uppercase tracking-wider text-[#6B7280]">Step-by-Step Choreography</div>
+              <ol class="list-decimal list-inside space-y-2 text-sm sm:text-lg text-[#374151]">
+                ${s.steps.map(st => `<li>${st}</li>`).join("")}
+              </ol>
+            </div>
+          </div>
+        `;
+      } else if (s.type === "routine") {
+        bodyHtml = `
+          <div class="space-y-5 my-auto">
+            <div class="flex flex-wrap items-center justify-between gap-3 border-b border-[#E5E0D8] pb-4">
+              <div>
+                <span class="text-xs font-bold uppercase tracking-wider text-[#2A6F68]">${s.category}</span>
+                <h2 class="text-2xl sm:text-3xl font-extrabold text-[#1F2937] mt-1">${s.title}</h2>
+                <p class="text-sm sm:text-base text-[#4B5563]">${s.subtitle}</p>
+              </div>
+              <span class="px-4 py-1.5 rounded-full bg-[#C86D51] text-white text-xs sm:text-sm font-bold">${s.cadence}</span>
+            </div>
+
+            <div class="bg-[#FAF8F5] border-l-4 border-[#C86D51] rounded-r-2xl p-5">
+              <div class="text-xs font-bold uppercase tracking-wider text-[#C86D51] mb-1">Say-Aloud Classroom Rule</div>
+              <p class="text-lg sm:text-2xl font-bold text-[#1F2937] leading-snug">${s.prompt}</p>
+            </div>
+
+            <div class="space-y-2 pt-1">
+              <div class="text-xs font-bold uppercase tracking-wider text-[#6B7280]">At-the-Wall Execution</div>
+              <ul class="list-disc list-inside space-y-2 text-sm sm:text-lg text-[#374151]">
+                ${s.steps.map(st => `<li>${st}</li>`).join("")}
+              </ul>
+            </div>
+          </div>
+        `;
+      }
+
+      stage.innerHTML = bodyHtml;
+
+      if (s.type === "opener") {
+        document.getElementById("slide-timer-toggle").addEventListener("click", () => toggleTimer(s.duration));
+        document.getElementById("slide-timer-reset").addEventListener("click", () => {
+          stopTimer();
+          timerSeconds = s.duration;
+          updateTimerDisplay();
+        });
+      }
+
+      const dotsEl = document.getElementById("slide-dots");
+      dotsEl.innerHTML = slidesDeck.map((_, i) => `
+        <button type="button" data-slide-dot="${i}" class="h-2.5 rounded-full transition-all ${i === currentSlide ? "w-7 bg-[#2A6F68]" : "w-2.5 bg-[#D1C7B7] hover:bg-[#9CA3AF]"}" aria-label="Slide ${i + 1}"></button>
+      `).join("");
+
+      dotsEl.querySelectorAll("button").forEach(btn => {
+        btn.addEventListener("click", () => renderSlide(parseInt(btn.dataset.slideDot, 10)));
+      });
+    }
+
+    function openSlidesMode(slideIdx = 0) {
+      hubView.classList.add("hidden");
+      slidesView.classList.remove("hidden");
+      window.location.hash = "slides";
+      renderSlide(slideIdx);
+      window.scrollTo(0, 0);
+    }
+
+    function openHubMode() {
+      stopTimer();
+      document.body.classList.remove("projector-mode");
+      slidesView.classList.add("hidden");
+      hubView.classList.remove("hidden");
+      window.location.hash = "hub";
+      benchmarksChart.resize();
+      ccltChart.resize();
+      window.scrollTo(0, 0);
+    }
+
+    document.getElementById("btn-launch-slides").addEventListener("click", () => openSlidesMode(0));
+    document.getElementById("btn-launch-slides-mobile").addEventListener("click", () => openSlidesMode(0));
+    document.getElementById("btn-launch-slides-hero").addEventListener("click", () => openSlidesMode(0));
+    document.getElementById("btn-back-hub").addEventListener("click", openHubMode);
+
+    document.getElementById("btn-prev-slide").addEventListener("click", () => renderSlide(currentSlide - 1));
+    document.getElementById("btn-next-slide").addEventListener("click", () => renderSlide(currentSlide + 1));
+
+    document.getElementById("btn-toggle-notes").addEventListener("click", () => {
+      notesVisible = !notesVisible;
+      const panel = document.getElementById("slides-notes-panel");
+      const btn = document.getElementById("btn-toggle-notes");
+      if (notesVisible) {
+        panel.classList.remove("hidden");
+        btn.textContent = "📝 Notes: On";
+      } else {
+        panel.classList.add("hidden");
+        btn.textContent = "📝 Notes: Off";
+      }
+    });
+
+    document.getElementById("btn-projector-mode").addEventListener("click", () => {
+      document.body.classList.toggle("projector-mode");
+    });
+
+    document.getElementById("btn-copy-slide-link").addEventListener("click", () => {
+      const shareUrl = window.location.origin + window.location.pathname + "#slides";
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(shareUrl);
+      }
+      const btn = document.getElementById("btn-copy-slide-link");
+      btn.textContent = "✓ Copied #slides URL!";
+      setTimeout(() => {
+        btn.textContent = "🔗 Copy Deck URL";
+      }, 2000);
+    });
+
+    const gridModal = document.getElementById("slide-grid-modal");
+    const gridItems = document.getElementById("slide-grid-items");
+
+    document.getElementById("btn-slide-grid").addEventListener("click", () => {
+      gridItems.innerHTML = slidesDeck.map((s, idx) => `
+        <button type="button" data-jump-slide="${idx}" class="text-left p-3.5 rounded-xl border transition ${idx === currentSlide ? "border-[#2A6F68] bg-[#2A6F68]/10" : "border-[#E5E0D8] hover:bg-[#F3EFEA]"}">
+          <div class="text-[11px] font-bold uppercase tracking-wider text-[#C86D51]">Slide ${idx + 1} • ${s.category}</div>
+          <div class="text-sm font-bold text-[#1F2937] mt-1">${s.title}</div>
+        </button>
+      `).join("");
+      gridItems.querySelectorAll("button").forEach(btn => {
+        btn.addEventListener("click", () => {
+          gridModal.classList.add("hidden");
+          renderSlide(parseInt(btn.dataset.jumpSlide, 10));
+        });
+      });
+      gridModal.classList.remove("hidden");
+    });
+
+    document.getElementById("btn-close-grid").addEventListener("click", () => {
+      gridModal.classList.add("hidden");
+    });
+
+    document.addEventListener("keydown", (e) => {
+      if (slidesView.classList.contains("hidden")) return;
+      if (e.key === "ArrowRight" || e.key === " ") {
+        if (document.activeElement.tagName !== "BUTTON") {
+          e.preventDefault();
+          renderSlide(currentSlide + 1);
+        }
+      } else if (e.key === "ArrowLeft") {
+        e.preventDefault();
+        renderSlide(currentSlide - 1);
+      } else if (e.key.toLowerCase() === "f") {
+        document.body.classList.toggle("projector-mode");
+      } else if (e.key === "Escape") {
+        document.body.classList.remove("projector-mode");
+        gridModal.classList.add("hidden");
+      }
+    });
+
+    function checkRoute() {
+      if (window.location.hash === "#slides") {
+        openSlidesMode(0);
+      } else if (window.location.hash === "#hub") {
+        openHubMode();
+      }
+    }
+
+    window.addEventListener("hashchange", checkRoute);
+    checkRoute();
+  </script>
+</body>
+</html>
